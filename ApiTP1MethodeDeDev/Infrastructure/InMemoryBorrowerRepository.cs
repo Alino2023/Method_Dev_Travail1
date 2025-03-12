@@ -11,8 +11,11 @@ namespace Infrastructure
     {
         public int Add(Borrower borrower)
         {
+            throw new NotImplementedException();
+        }
 
-
+        public List<Borrower> GetAll()
+        {
             throw new NotImplementedException();
         }
 
