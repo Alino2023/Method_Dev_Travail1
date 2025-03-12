@@ -32,7 +32,27 @@ namespace ApiTP1MethodeDeDev.Controllers
                 .ToListAsync();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<BorrowerEntity>> AddNewBorrower(BorrowerEntity borrowerEntity)
+        {
+            var borrower = new Borrower
+            {
+                Sin = borrowerEntity.Sin,
+                FirstName = borrowerEntity.FirstName,
+                LastName = borrowerEntity.LastName,
+                Phone = borrowerEntity.Phone,
+                Email = borrowerEntity.Email,
+                Address = borrowerEntity.Address
+            };
 
+            _context.Borrowers.Add(borrower);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetBorrower),
+                new { sin = borrower.Sin },
+                BorrowerToEntity(borrower));
+        }
 
         [HttpGet("{sin}")]
         public async Task<ActionResult<Borrower>> GetBorrower(string sin)
@@ -90,7 +110,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                LastName = borrower.LastName,
                Phone = borrower.Phone,
                Email = borrower.Email,
-               Address = borrower.Address,
+               Address = borrower.Address
            };
 
 
