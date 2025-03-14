@@ -8,10 +8,10 @@ namespace Domain.Borrower
 {
     public interface IBorrowerRepository
     {
-        Borrower GetBySin(string sin);
-        int Add(Borrower borrower);
+        Task<Borrower> GetBySin(string sin);
+        Task<int> Add(Borrower borrower);
         void Update(Borrower borrower);
-        List<Borrower> GetAll();
+        Task<List<Borrower>> GetAll();
 
     }
 }
