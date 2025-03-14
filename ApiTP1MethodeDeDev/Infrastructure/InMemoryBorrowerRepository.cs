@@ -43,11 +43,12 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
-        Task<List<Borrower>> IBorrowerRepository.GetAll()
+        async Task<List<Borrower>> IBorrowerRepository.GetAll()
         {
-            return _appDbContext.Borrowers.Select(b => BorrowerToEntity(b))
+            return await _appDbContext.Borrowers
+                .Select(b => EntityToBorrower(b))
                 .ToListAsync();
-            throw new NotImplementedException();
+
         }
 
         Task<Borrower> IBorrowerRepository.GetBySin(string sin)
@@ -55,15 +56,16 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
-        private static BorrowerEntity BorrowerToEntity(Borrower borrower) =>
-           new BorrowerEntity
+        private static Borrower EntityToBorrower(BorrowerEntity borrowerEntity) =>
+           new Borrower
            {
-               Sin = borrower.Sin,
-               FirstName = borrower.FirstName,
-               LastName = borrower.LastName,
-               Phone = borrower.Phone,
-               Email = borrower.Email,
-               Address = borrower.Address
+               Sin = borrowerEntity.Sin,
+               FirstName = borrowerEntity.FirstName,
+               LastName = borrowerEntity.LastName,
+               Phone = borrowerEntity.Phone,
+               Email = borrowerEntity.Email,
+               Address = borrowerEntity.Address
            };
+
     }
 }
