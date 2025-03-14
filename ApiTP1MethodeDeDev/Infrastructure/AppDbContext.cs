@@ -10,10 +10,11 @@ namespace Infrastructure
 {
     public class AppDbContext : DbContext 
     {
+        public DbSet<BorrowerEntity> Borrowers { get; set; } = null!;
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-        public DbSet<BorrowerEntity> Borrowers { get; set; } = null!;
+        
 
 
     }
