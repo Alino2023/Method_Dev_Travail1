@@ -10,6 +10,7 @@ namespace Domain.Borrower
 {
     public class Borrower
     {
+        [Key]
         [Required]
         [MinLength(9)]
         [MaxLength(11)]
@@ -46,5 +47,14 @@ namespace Domain.Borrower
         {
         }
 
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        {
+            Sin = sin;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Address = address;
+        }
     }
 }
