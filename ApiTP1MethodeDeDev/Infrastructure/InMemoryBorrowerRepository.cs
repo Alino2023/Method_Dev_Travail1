@@ -33,6 +33,14 @@ namespace Infrastructure
         //    throw new NotImplementedException();
         //}
 
+            public async Task<ActionResult<IEnumerable<BorrowerEntity>>> GetAllBorrowers()
+        {
+            //return await _context.Borrowers
+            //    .Select(x => BorrowerToEntity(x))
+            //    .ToListAsync();
+
+            return await _appDbContext.Borrowers.Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Email, b.Phone, b.Address)).ToListAsync();  
+        }
         public void Update(Borrower borrower)
         {
             throw new NotImplementedException();
