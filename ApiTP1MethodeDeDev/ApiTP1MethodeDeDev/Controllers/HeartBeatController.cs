@@ -102,16 +102,16 @@ namespace ApiTP1MethodeDeDev.Controllers
             return _context.Borrowers.Any(b => b.Sin == sin);
         }
 
-        private static BorrowerEntity BorrowerToEntity(Borrower borrower) =>
-           new BorrowerEntity
-           {
-               Sin = borrower.Sin,
-               FirstName = borrower.FirstName,
-               LastName = borrower.LastName,
-               Phone = borrower.Phone,
-               Email = borrower.Email,
-               Address = borrower.Address
-           };
+        //private static Borrower EntityToBorrower(BorrowerEntity borrowerEntity) =>
+        //  new Borrower
+        //  {
+        //      Sin = borrowerEntity.Sin,
+        //      FirstName = borrowerEntity.FirstName,
+        //      LastName = borrowerEntity.LastName,
+        //      Phone = borrowerEntity.Phone,
+        //      Email = borrowerEntity.Email,
+        //      Address = borrowerEntity.Address
+        //  };
 
 
     }

@@ -12,6 +12,5 @@ namespace Domain.Borrower
         Task<int> Add(Borrower borrower);
         void Update(Borrower borrower);
         Task<List<Borrower>> GetAll();
-
     }
 }
