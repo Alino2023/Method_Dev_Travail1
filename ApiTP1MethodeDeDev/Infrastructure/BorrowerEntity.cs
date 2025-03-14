@@ -11,7 +11,7 @@ namespace Infrastructure
 {
     public class BorrowerEntity
     {
-
+        [Key]
         [Required]
         [MinLength(9)]
         [MaxLength(11)]
