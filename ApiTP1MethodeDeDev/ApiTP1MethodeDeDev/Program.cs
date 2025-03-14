@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure;
+using Domain.Borrower;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,11 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseInMemoryDatabase("BankList"));
+    opt.UseInMemoryDatabase("AppDb"));
+
+builder.Services.AddScoped<IBorrowerService, BorrowerService>();
+builder.Services.AddScoped<IBorrowerRepository, InMemoryBorrowerRepository>();
+
 
 var app = builder.Build();
 
@@ -24,6 +29,13 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "v1");
     });
 }
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbcontext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbcontext.Database.EnsureCreated();
+}
+
 
 app.UseHttpsRedirection();
 
