@@ -25,12 +25,14 @@ namespace ApiTP1MethodeDeDev.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BorrowerEntity>>> GetAllBorrowers()
+        public async Task<Infrastructure.ActionResult<IEnumerable<BorrowerEntity>>> GetAllBorrowers()
         {
-            return await _context.Borrowers
-                .Select(x => BorrowerToEntity(x))
-                .ToListAsync();
+            var borrowers = await _context.Borrowers.ToListAsync(); // Récupération en base
+            var borrowerEntities = borrowers.Select(BorrowerToEntity).ToList(); // Transformation
+
+            return Ok(borrowerEntities);
         }
+
 
         [HttpPost]
         public async Task<ActionResult<BorrowerEntity>> AddNewBorrower(BorrowerEntity borrowerEntity)
@@ -112,6 +114,19 @@ namespace ApiTP1MethodeDeDev.Controllers
         //      Email = borrowerEntity.Email,
         //      Address = borrowerEntity.Address
         //  };
+
+        private BorrowerEntity BorrowerToEntity(Borrower borrower)
+        {
+            return new BorrowerEntity
+            {
+                Sin = borrower.Sin,
+                FirstName = borrower.FirstName,
+                LastName = borrower.LastName,
+                Phone = borrower.Phone,
+                Email = borrower.Email,
+                Address = borrower.Address
+            };
+        }
 
 
     }
