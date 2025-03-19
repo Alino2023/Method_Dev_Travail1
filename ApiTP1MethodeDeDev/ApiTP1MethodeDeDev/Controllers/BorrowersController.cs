@@ -11,6 +11,8 @@ using ApiTP1MethodeDeDev.Dtos;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class BorrowersController : ControllerBase
     {
 
