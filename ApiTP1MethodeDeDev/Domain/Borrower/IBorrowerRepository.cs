@@ -8,9 +8,9 @@ namespace Domain.Borrower
 {
     public interface IBorrowerRepository
     {
-        Task<Borrower> GetBySin(string sin);
-        Task<int> Add(Borrower borrower);
+        Borrower GetBySin(string sin);
+        int Add(Borrower borrower);
         void Update(Borrower borrower);
-        Task<List<Borrower>> GetAll();
+        List<Borrower> GetAll();
     }
 }
