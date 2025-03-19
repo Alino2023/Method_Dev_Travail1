@@ -8,10 +8,21 @@ namespace Domain.Borrower
 {
     public class BorrowerService : IBorrowerService
     {
+        private readonly IBorrowerRepository _borrowerRepository;
 
-        Task<IList<Borrower>> IBorrowerService.GetAll()
+        public BorrowerService(IBorrowerRepository borrowerRepository)
         {
-            throw new NotImplementedException();
+            _borrowerRepository = borrowerRepository;
+        }
+
+        public Borrower GetBySin(string sin)
+        {
+            return _borrowerRepository.GetBySin(sin);
+        }
+
+        IList<Borrower> IBorrowerService.GetAll()
+        {
+            return _borrowerRepository.GetAll();
         }
     }
 }
