@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
-    
+
     [Route("api/[controller]")]
     [ApiController]
     public class HeartBeatController : ControllerBase

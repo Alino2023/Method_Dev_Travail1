@@ -23,6 +23,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             _borrowerService = borrowerService;
         }
 
+        [HttpGet]
         public IEnumerable<BorrowerReponse> Get()
         {
             return _borrowerService.GetAll().Select(b =>
