@@ -17,21 +17,23 @@ namespace Infrastructure
             _appDbContext = appDbContext;
         }
 
-        //public int Add(Borrower borrower)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public int Add(Borrower borrower)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public List<Borrower> GetAll()
-        //{
-        //    return _appDbContext.Borrowers.Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Phone, b.Email, b.Address)).ToList();
+        public List<Borrower> GetAll()
+        {
+            return _appDbContext.Borrowers.Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Phone, b.Email, b.Address)).ToList();
 
-        //}
+        }
 
-        //public Borrower GetBySin(string sin)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public Borrower GetBySin(string sin)
+        {
+            BorrowerEntity borrowerEntity = _appDbContext.Borrowers.First(b => b.Sin == sin);
+
+            return new Borrower(borrowerEntity.Sin, borrowerEntity.FirstName, borrowerEntity.LastName, borrowerEntity.Phone, borrowerEntity.Email, borrowerEntity.Address);
+        }
 
             public async Task<ActionResult<IEnumerable<BorrowerEntity>>> GetAllBorrowers()
         {
@@ -46,34 +48,17 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
-        Task<int> IBorrowerRepository.Add(Borrower borrower)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<Borrower>> IBorrowerRepository.GetAll()
-        {
-            return await _appDbContext.Borrowers
-                .Select(b => EntityToBorrower(b))
-                .ToListAsync();
-
-        }
-
-        Task<Borrower> IBorrowerRepository.GetBySin(string sin)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static Borrower EntityToBorrower(BorrowerEntity borrowerEntity) =>
-           new Borrower
-           {
-               Sin = borrowerEntity.Sin,
-               FirstName = borrowerEntity.FirstName,
-               LastName = borrowerEntity.LastName,
-               Phone = borrowerEntity.Phone,
-               Email = borrowerEntity.Email,
-               Address = borrowerEntity.Address
-           };
+        
+        //private static Borrower BorrowerToEntity(Borrower borrower) =>
+        //          new Borrower
+        //          {
+        //              Sin = borrower.Sin,
+        //              FirstName = borrower.FirstName,
+        //              LastName = borrower.LastName,
+        //              Phone = borrower.Phone,
+        //              Email = borrower.Email,
+        //              Address = borrower.Address
+        //          };
 
     }
 }

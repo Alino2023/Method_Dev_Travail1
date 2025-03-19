@@ -8,7 +8,8 @@ namespace Domain.Borrower
 {
     public interface IBorrowerService
     {
-        public Task<IList<Borrower>> GetAll();
+        public IList<Borrower> GetAll();
+        Borrower GetBySin(string sin);
 
     }
 }

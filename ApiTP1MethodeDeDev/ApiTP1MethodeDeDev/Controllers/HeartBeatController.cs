@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class HeartBeatController : ControllerBase
@@ -23,111 +24,6 @@ namespace ApiTP1MethodeDeDev.Controllers
         {
             return Ok();
         }
-
-        [HttpGet]
-        public async Task<Infrastructure.ActionResult<IEnumerable<BorrowerEntity>>> GetAllBorrowers()
-        {
-            var borrowers = await _context.Borrowers.ToListAsync(); // Récupération en base
-            var borrowerEntities = borrowers.Select(BorrowerToEntity).ToList(); // Transformation
-
-            return Ok(borrowerEntities);
-        }
-
-
-        [HttpPost]
-        public async Task<ActionResult<BorrowerEntity>> AddNewBorrower(BorrowerEntity borrowerEntity)
-        {
-            var borrower = new Borrower
-            {
-                Sin = borrowerEntity.Sin,
-                FirstName = borrowerEntity.FirstName,
-                LastName = borrowerEntity.LastName,
-                Phone = borrowerEntity.Phone,
-                Email = borrowerEntity.Email,
-                Address = borrowerEntity.Address
-            };
-
-            _context.Borrowers.Add(borrower);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(
-                nameof(GetBorrower),
-                new { sin = borrower.Sin },
-                BorrowerToEntity(borrower));
-        }
-
-        [HttpGet("{sin}")]
-        public async Task<ActionResult<Borrower>> GetBorrower(string sin)
-        {
-            var borrower = await _context.Borrowers.FindAsync(sin);
-
-            if (borrower == null)
-            {
-                return NotFound();
-            }
-
-            return borrower;
-        }
-
-        [HttpPut("{sin}")]
-        public async Task<IActionResult> UpdateBorrower(string sin, Borrower borrower)
-        {
-            if (sin != borrower.Sin)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(borrower).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BorrowerExists(sin))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-
-        private bool BorrowerExists(string sin)
-        {
-            return _context.Borrowers.Any(b => b.Sin == sin);
-        }
-
-        //private static Borrower EntityToBorrower(BorrowerEntity borrowerEntity) =>
-        //  new Borrower
-        //  {
-        //      Sin = borrowerEntity.Sin,
-        //      FirstName = borrowerEntity.FirstName,
-        //      LastName = borrowerEntity.LastName,
-        //      Phone = borrowerEntity.Phone,
-        //      Email = borrowerEntity.Email,
-        //      Address = borrowerEntity.Address
-        //  };
-
-        private BorrowerEntity BorrowerToEntity(Borrower borrower)
-        {
-            return new BorrowerEntity
-            {
-                Sin = borrower.Sin,
-                FirstName = borrower.FirstName,
-                LastName = borrower.LastName,
-                Phone = borrower.Phone,
-                Email = borrower.Email,
-                Address = borrower.Address
-            };
-        }
-
 
     }
 }
