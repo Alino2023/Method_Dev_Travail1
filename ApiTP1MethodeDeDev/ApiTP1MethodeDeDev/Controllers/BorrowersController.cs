@@ -74,7 +74,8 @@ namespace ApiTP1MethodeDeDev.Controllers
                 LastName = borrowerResquest.LastName,
                 Phone = borrowerResquest.Phone,
                 Email = borrowerResquest.Email,
-                Address = borrowerResquest.Address
+                Address = borrowerResquest.Address,
+
 
             };
 
