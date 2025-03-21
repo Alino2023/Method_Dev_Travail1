@@ -43,11 +43,18 @@ namespace Domain.Borrower
         [Description("User's Address")]
         public string Address { get; set; }
 
+        [Required]
+        public decimal MonthlyIncome { get; set; } 
+
+        public List<decimal> MonthlyLoanPayments { get; set; } = new List<decimal>();
+        public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>(); 
+
+
         public Borrower()
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
         {
             Sin = sin;
             FirstName = firstName;
@@ -55,6 +62,7 @@ namespace Domain.Borrower
             Phone = phone;
             Email = email;
             Address = address;
+            MonthlyIncome = monthlyIncome;  
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Domain.Borrower
     {
         public IList<Borrower> GetAll();
         Borrower GetBySin(string sin);
+        string Add(Borrower borrower);
+        void Update(Borrower borrower);
 
     }
 }

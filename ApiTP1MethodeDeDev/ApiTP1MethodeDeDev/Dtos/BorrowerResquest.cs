@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace ApiTP1MethodeDeDev.Dtos
 {
-    public class BorrowerReponse
+    public class BorrowerResquest
     {
         [Required]
         [MinLength(9)]
@@ -36,6 +36,5 @@ namespace ApiTP1MethodeDeDev.Dtos
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
-
     }
 }

@@ -9,7 +9,7 @@ namespace Domain.Borrower
     public interface IBorrowerRepository
     {
         Borrower GetBySin(string sin);
-        int Add(Borrower borrower);
+        string Add(Borrower borrower);
         void Update(Borrower borrower);
         List<Borrower> GetAll();
     }
