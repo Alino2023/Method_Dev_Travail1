@@ -15,9 +15,19 @@ namespace Domain.Borrower
             _borrowerRepository = borrowerRepository;
         }
 
+        public string Add(Borrower borrower)
+        {
+            return _borrowerRepository.Add(borrower);
+        }
+
         public Borrower GetBySin(string sin)
         {
             return _borrowerRepository.GetBySin(sin);
+        }
+
+        public void Update(Borrower borrower)
+        {
+            _borrowerRepository.Update(borrower);
         }
 
         IList<Borrower> IBorrowerService.GetAll()
