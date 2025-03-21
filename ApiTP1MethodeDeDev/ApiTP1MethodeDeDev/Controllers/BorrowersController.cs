@@ -11,6 +11,8 @@ using ApiTP1MethodeDeDev.Dtos;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class BorrowersController : ControllerBase
     {
 
@@ -21,6 +23,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             _borrowerService = borrowerService;
         }
 
+        [HttpGet]
         public IEnumerable<BorrowerReponse> Get()
         {
             return _borrowerService.GetAll().Select(b =>
