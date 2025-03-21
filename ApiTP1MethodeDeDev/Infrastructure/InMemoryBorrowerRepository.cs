@@ -17,9 +17,25 @@ namespace Infrastructure
             _appDbContext = appDbContext;
         }
 
-        public int Add(Borrower borrower)
+        public string Add(Borrower borrower)
         {
-            throw new NotImplementedException();
+            if (borrower == null)
+                throw new ArgumentNullException(nameof(borrower));
+
+            var borrowerEntity = new BorrowerEntity
+            {
+                Sin = borrower.Sin,
+                FirstName = borrower.FirstName,
+                LastName = borrower.LastName,
+                Phone = borrower.Phone,
+                Email = borrower.Email,
+                Address = borrower.Address
+            };
+
+            _appDbContext.Borrowers.Add(borrowerEntity);
+            _appDbContext.SaveChanges();
+
+            return borrowerEntity.Sin;
         }
 
         public List<Borrower> GetAll()
@@ -31,6 +47,11 @@ namespace Infrastructure
         public Borrower GetBySin(string sin)
         {
             BorrowerEntity borrowerEntity = _appDbContext.Borrowers.First(b => b.Sin == sin);
+
+            if (borrowerEntity == null)
+            {
+                throw new KeyNotFoundException($"Borrower with SIN {sin} not found.");
+            }
 
             return new Borrower(borrowerEntity.Sin, borrowerEntity.FirstName, borrowerEntity.LastName, borrowerEntity.Phone, borrowerEntity.Email, borrowerEntity.Address);
         }
