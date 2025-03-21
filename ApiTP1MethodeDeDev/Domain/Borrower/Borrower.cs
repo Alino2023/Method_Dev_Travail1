@@ -64,5 +64,11 @@ namespace Domain.Borrower
             Address = address;
             MonthlyIncome = monthlyIncome;  
         }
+
+        public decimal CalculateDebtRatio()
+        {
+            decimal totalLoanPayments = ActiveLoanPayments.Sum();
+            return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
+        }
     }
 }
