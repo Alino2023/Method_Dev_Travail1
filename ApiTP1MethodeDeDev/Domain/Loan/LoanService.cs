@@ -17,21 +17,52 @@ namespace Domain.Loan
        
         public string Create(Loan loan)
         {
-            throw new NotImplementedException();
+            if (loan == null)
+            {
+                return "Le prêt ne peut pas être nul";
+            }
+
+            // Verify if the loan amount is negative or zero
+            if (loan.Amount <= 0)
+            {
+                return "Le montant du prêt doit être positif.";
+            }
+
+            //verify if the loan duration is negative or zero
+            if (loan.DurationInMonths <= 0)
+            {
+                return "La durée du prêt doit être positive.";
+            }
+
+            // When the loan is created, the remaining amount is said to be the total amount
+            loan.RemainingAmount = loan.Amount;
+
+            return _loanRepository.Create(loan);
+                        
         }
         public IList<Loan> GetAll()
         {
-            throw new NotImplementedException();
+            return _loanRepository.GetAll();
         }
 
         public Loan GetByIdLoan(int idLoan)
         {
-            throw new NotImplementedException();
+            var loan = _loanRepository.GetByIdLoan(idLoan); 
+            if (loan == null)
+            {
+                return null!;
+            }
+
+            return loan;
         }
 
         public void Update(Loan loan)
         {
-            throw new NotImplementedException();
+            if (loan == null)
+            {
+                throw new ArgumentNullException(nameof(loan), "Le prêt ne peut pas être nul.");
+            }
+            _loanRepository.Update(loan);
         }
     }
 }
