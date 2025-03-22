@@ -24,7 +24,7 @@ namespace Domain.Loan
             throw new NotImplementedException();
         }
 
-        public Loan GetById(int idLoan)
+        public Loan GetByIdLoan(int idLoan)
         {
             throw new NotImplementedException();
         }
