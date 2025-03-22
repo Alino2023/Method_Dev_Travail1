@@ -64,5 +64,15 @@ namespace Domain.Borrower
             Address = address;
             MonthlyIncome = monthlyIncome;  
         }
+
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        {
+            Sin = sin;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Address = address;
+        }
     }
 }
