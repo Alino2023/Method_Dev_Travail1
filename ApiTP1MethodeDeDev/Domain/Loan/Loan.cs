@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Borrower;
 
 namespace Domain.Loan
 {
@@ -16,8 +17,8 @@ namespace Domain.Loan
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal RemainingAmount { get; set; }
-
-        //public Borrower TheBorrower { get; set; }
+        public string BorrowerSin {  get; set; }
+        public BorrowerService TheBorrower { get; set; }
 
     }
 }
