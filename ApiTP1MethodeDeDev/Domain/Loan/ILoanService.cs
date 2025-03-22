@@ -9,7 +9,7 @@ namespace Domain.Loan
     public interface ILoanService
     {
         public IList<Loan> GetAll();
-        Loan GetById(int idLoan);
+        Loan GetByIdLoan(int idLoan);
         string Create(Loan loan);
         void Update(Loan loan);
     }
