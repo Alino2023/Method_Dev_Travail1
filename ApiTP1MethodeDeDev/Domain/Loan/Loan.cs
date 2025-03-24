@@ -35,7 +35,7 @@ namespace Domain.Loan
 
         [Required]
         [Description ("The date when paiements will start")]
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         [Required]
         [Description("The end date of paiements")]
