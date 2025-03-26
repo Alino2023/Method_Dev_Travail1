@@ -11,9 +11,9 @@ namespace Domain.Emploi
     {
         public int JobId {  get; set; } 
         public string InstitutionName {  get; set; }
-        DateTime StartingDate { get; set; }
-        DateTime EndingDate { get; set; }
-        Decimal MentualSalary {  get; set; }
+        public DateTime StartingDate { get; set; }
+        public DateTime EndingDate { get; set; }
+        public Decimal MentualSalary {  get; set; }
 
         
     }
