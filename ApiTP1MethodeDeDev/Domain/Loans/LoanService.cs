@@ -19,19 +19,19 @@ namespace Domain.Loans
         {
             if (loan == null)
             {
-                return "Le prêt ne peut pas être nul";
+                return "The loan cannot be void";
             }
 
             // Verify if the loan amount is negative or zero
             if (loan.Amount <= 0)
             {
-                return "Le montant du prêt doit être positif.";
+                return "The loan amount must be positive.";
             }
 
             //verify if the loan duration is negative or zero
             if (loan.DurationInMonths <= 0)
             {
-                return "La durée du prêt doit être positive.";
+                return "The term of the loan must be greater than 0.";
             }
 
             // When the loan is created, the remaining amount is said to be the total amount
@@ -60,7 +60,7 @@ namespace Domain.Loans
         {
             if (loan == null)
             {
-                throw new ArgumentNullException(nameof(loan), "Le prêt ne peut pas être nul.");
+                throw new ArgumentNullException(nameof(loan), "The loan cannot be void.");
             }
             _loanRepository.Update(loan);
         }
