@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure;
-using Domain.Borrower;
+using Domain.Borrowers;
+using Domain.Loans;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddScoped<IBorrowerService, BorrowerService>();
 builder.Services.AddScoped<IBorrowerRepository, InMemoryBorrowerRepository>();
+
+builder.Services.AddScoped<ILoanService, LoanService>();
+builder.Services.AddScoped<ILoanRepository, InMemoryLoanRepository>();
 
 
 var app = builder.Build();

@@ -6,6 +6,13 @@ namespace ApiTP1MethodeDeDev.Dtos
     public class BorrowerReponse
     {
         [Required]
+        [MinLength(9)]
+        [MaxLength(11)]
+        [Description("User's Social insurance Number")]
+        //[Example("123-456-789")]
+        public string Sin { get; set; }
+
+        [Required]
         [MaxLength(255)]
         [Description("User's FirstName")]
         public string FirstName { get; set; }
@@ -30,14 +37,5 @@ namespace ApiTP1MethodeDeDev.Dtos
         [Description("User's Address")]
         public string Address { get; set; }
 
-        //public BorrowerEntity(Borrower borrower)
-        //{
-        //    Sin = borrower.Sin;
-        //    FirstName = borrower.FirstName;
-        //    LastName = borrower.LastName;
-        //    Phone = borrower.Phone;
-        //    Email = borrower.Email;
-        //    Address = borrower.Address;
-        //}
     }
 }

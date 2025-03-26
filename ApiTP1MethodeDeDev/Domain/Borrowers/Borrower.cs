@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Domain.Bank;
 using Domain.Emploi;
 
-namespace Domain.Borrower
+namespace Domain.Borrowers
 {
     public class Borrower
     {
@@ -75,6 +75,17 @@ namespace Domain.Borrower
 
         public Borrower()
         {
+        }
+
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
+        {
+            Sin = sin;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Address = address;
+            MonthlyIncome = monthlyIncome;  
         }
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)

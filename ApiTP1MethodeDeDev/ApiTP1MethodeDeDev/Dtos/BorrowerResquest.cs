@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Borrowers;
 
-namespace Infrastructure
+namespace ApiTP1MethodeDeDev.Dtos
 {
-    public class BorrowerEntity
+    public class BorrowerResquest
     {
-        [Key]
         [Required]
         [MinLength(9)]
         [MaxLength(11)]
@@ -43,17 +36,5 @@ namespace Infrastructure
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
-
-        //public BorrowerEntity(Borrower borrower)
-        //{
-        //    Sin = borrower.Sin;
-        //    FirstName = borrower.FirstName;
-        //    LastName = borrower.LastName;
-        //    Phone = borrower.Phone;
-        //    Email = borrower.Email;
-        //    Address = borrower.Address;
-        //}
-
-
     }
 }
