@@ -61,7 +61,7 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
-        
+
         //private static Borrower BorrowerToEntity(Borrower borrower) =>
         //          new Borrower
         //          {
