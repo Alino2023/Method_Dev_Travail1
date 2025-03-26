@@ -1,4 +1,4 @@
-﻿using Domain.Borrower;
+﻿using Domain.Borrowers;
 using Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

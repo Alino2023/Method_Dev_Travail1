@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Loan
+namespace Domain.Loans
 {
     public interface ILoanService
     {
         public IList<Loan> GetAll();
-        Loan GetById(int idLoan);
+        Loan GetByIdLoan(int idLoan);
         string Create(Loan loan);
         void Update(Loan loan);
     }

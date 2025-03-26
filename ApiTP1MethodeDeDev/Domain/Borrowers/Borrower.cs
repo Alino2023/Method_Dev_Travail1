@@ -5,8 +5,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Bank;
+using Domain.Emploi;
 
-namespace Domain.Borrower
+namespace Domain.Borrowers
 {
     public class Borrower
     {
@@ -44,10 +46,31 @@ namespace Domain.Borrower
         public string Address { get; set; }
 
         [Required]
-        public decimal MonthlyIncome { get; set; } 
+        [Description("User's bankrupty times in the last 6years")]
+        public bool Had_Bankrupty_In_Last_Six_Years { get; set; }
 
-        public List<decimal> MonthlyLoanPayments { get; set; } = new List<decimal>();
-        public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>(); 
+        [Description("User's bankrupty date if exists ")]
+        DateTime BankruptyDate { get; set; }
+
+        [Required]
+        [Description("Credit Score")]
+        public int Equifax_Result { get; set; }
+
+        [Required]
+        [Description("Number Of borrower's Late Payements")]
+        public int NumberOfLatePayements {  get; set; }
+
+
+        [Required]
+        [Description("Debt Ratio")]
+        public Decimal DebtRatio {  get; set; }
+
+
+        [Required]
+        [Description("List of monthly payments from other banks")]
+        public List<OtherBank> OtherBankLoans { get; set; }
+        public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+        public List<Loan> Loans { get; set; } = new List<Loan>();
 
 
         public Borrower()
@@ -69,6 +92,16 @@ namespace Domain.Borrower
         {
             decimal totalLoanPayments = ActiveLoanPayments.Sum();
             return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
+        }
+
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        {
+            Sin = sin;
+            FirstName = firstName;
+            LastName = lastName;
+            Phone = phone;
+            Email = email;
+            Address = address;
         }
     }
 }

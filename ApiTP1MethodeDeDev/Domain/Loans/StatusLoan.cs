@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Loan
+namespace Domain.Loans
 {
     public enum StatusLoan
     {

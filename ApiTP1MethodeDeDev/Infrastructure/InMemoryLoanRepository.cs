@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Loans;
 
-namespace Domain.Loan
+namespace Infrastructure
 {
-    public class LoanService : ILoanService
+    public class InMemoryLoanRepository : ILoanRepository
     {
-        private readonly ILoanRepository _loanRepository;
+        private readonly AppDbContext _context;
 
-        public LoanService(ILoanRepository loanRepository)
+        public InMemoryLoanRepository(AppDbContext context)
         {
-            _loanRepository = loanRepository;
+            _context = context;
         }
-       
+
+        public object AddLoanAsync(Loan loan)
+        {
+            throw new NotImplementedException();
+        }
+
         public string Create(Loan loan)
         {
             throw new NotImplementedException();
         }
-        public IList<Loan> GetAll()
+
+        public List<Loan> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Loan GetById(int idLoan)
+        public Loan GetByIdLoan(int idLoan)
         {
             throw new NotImplementedException();
         }
