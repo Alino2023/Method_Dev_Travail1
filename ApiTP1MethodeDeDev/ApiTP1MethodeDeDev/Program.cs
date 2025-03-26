@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure;
-using Domain.Borrower;
-using Domain.Loan;
+using Domain.Borrowers;
+using Domain.Loans;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Borrower;
+using Domain.Borrowers;
 
-namespace Domain.Loan
+namespace Domain.Loans
 {
     public class Loan
     {
@@ -46,13 +46,10 @@ namespace Domain.Loan
         public decimal RemainingAmount { get; set; }
 
         [Required]
-        public string BorrowerSin {  get; set; }
-
-        [Required]
-        public BorrowerService TheBorrower { get; set; }
+        public Borrower TheBorrower { get; set; }
 
         public List<decimal> Loans { get; set; } = new List<decimal>();
-        public Loan(int idLoan, decimal amount, decimal interestRate, int durationInMonths, StatusLoan status, DateTime startDate, DateTime endDate, decimal remainingAmount, string borrowerSin, BorrowerService theBorrower)
+        public Loan(int idLoan, decimal amount, decimal interestRate, int durationInMonths, StatusLoan status, DateTime startDate, DateTime endDate, decimal remainingAmount, string borrowerSin, Borrower theBorrower)
         {
             IdLoan = idLoan;
             Amount = amount;
@@ -62,7 +59,6 @@ namespace Domain.Loan
             StartDate = startDate;
             EndDate = endDate;
             RemainingAmount = remainingAmount;
-            BorrowerSin = borrowerSin;
             TheBorrower = theBorrower;
         }
 

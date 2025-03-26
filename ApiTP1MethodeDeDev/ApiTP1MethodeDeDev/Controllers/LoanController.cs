@@ -1,4 +1,4 @@
-﻿using Domain.Loan;
+﻿using Domain.Loans;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTP1MethodeDeDev.Controllers

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Borrower;
-using Domain.Loan;
+using Domain.Borrowers;
+using Domain.Loans;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
@@ -39,7 +39,7 @@ namespace Infrastructure
                 StartDate = DateTime.Now,
                 RemainingAmount = 20000m,
                 BorrowerSin = "987654321",
-                TheBorrower = null!
+                //TheBorrower = null!
             }));
 
             //modelBuilder.Entity<LoanEntity>()

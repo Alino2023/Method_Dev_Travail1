@@ -6,8 +6,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Borrower;
-using Domain.Loan;
+using Domain.Borrowers;
+using Domain.Loans;
 
 namespace Infrastructure
 {
@@ -49,8 +49,8 @@ namespace Infrastructure
         [Required]
         public string BorrowerSin { get; set; }
 
-        [Required]
-        public BorrowerService TheBorrower { get; set; }
+        /*[Required]
+        public BorrowerService TheBorrower { get; set; }*/
       
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Borrower;
+using Domain.Borrowers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
