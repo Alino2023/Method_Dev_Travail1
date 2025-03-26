@@ -54,7 +54,7 @@ namespace Domain.Borrower
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
             Sin = sin;
             FirstName = firstName;
@@ -62,7 +62,7 @@ namespace Domain.Borrower
             Phone = phone;
             Email = email;
             Address = address;
-            MonthlyIncome = monthlyIncome;  
+        
         }
 
         public decimal CalculateDebtRatio()
