@@ -64,7 +64,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBank> OtherBankLoans { get; set; }
+        public List<OtherBank> OtherBankLoans { get; set; } = new List<OtherBank>;
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
 
