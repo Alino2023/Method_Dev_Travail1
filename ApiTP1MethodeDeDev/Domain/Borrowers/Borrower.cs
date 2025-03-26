@@ -4,6 +4,7 @@ using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
 
+
 namespace Domain.Borrowers
 {
     public class Borrower
@@ -43,7 +44,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("User's bankrupty times in the last 6years")]
-        public bool Had_Bankrupty_In_Last_Six_Years { get; set; }
+        public bool Had_Bankrupty_In_Last_Six_Years { get=> BankruptyDate != default && (DateTime.Now - BankruptyDate).TotalDays <= 6 * 365; }
 
         [Description("User's bankrupty date if exists ")]
         DateTime BankruptyDate { get; set; }
@@ -64,7 +65,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBank> OtherBankLoans { get; set; } = new List<OtherBank>;
+        public List<OtherBank> OtherBankLoans { get; set; } = new List<OtherBank>();
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
 
@@ -82,6 +83,18 @@ namespace Domain.Borrowers
             Phone = phone;
             Email = email;
             Address = address;
+        }
+        public string ClassifyRisk()
+        {
+            int jobsInLastTwoYears = EmploymentHistory.Count(job => job.StartingDate >= DateTime.Now.AddYears(-2));
+            Job currentJob = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
+            bool currentJobIsLessThan12Months = ((currentJob != null) && ((DateTime.Now - currentJob.StartingDate).TotalDays < 365));
+
+            if (Had_Bankrupty_In_Last_Six_Years || Equifax_Result < 650 || DebtRatio > 0.40m)
+            {
+                return "Risque élevé";
+            }
+            return "";
         }
     }
 }
