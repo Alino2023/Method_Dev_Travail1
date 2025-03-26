@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Bank;
+using Domain.Emploi;
 
 namespace Domain.Borrower
 {
@@ -42,6 +44,34 @@ namespace Domain.Borrower
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
+
+        [Required]
+        [Description("User's bankrupty times in the last 6years")]
+        public bool Had_Bankrupty_In_Last_Six_Years { get; set; }
+
+        [Description("User's bankrupty date if exists ")]
+        DateTime BankruptyDate { get; set; }
+
+        [Required]
+        [Description("Credit Score")]
+        public int Equifax_Result { get; set; }
+
+        [Required]
+        [Description("Number Of borrower's Late Payements")]
+        public int NumberOfLatePayements {  get; set; }
+
+
+        [Required]
+        [Description("Debt Ratio")]
+        public Decimal DebtRatio {  get; set; }
+
+
+        [Required]
+        [Description("List of monthly payments from other banks")]
+        public List<OtherBank> OtherBankLoans { get; set; }
+        public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+        public List<Loan> Loans { get; set; } = new List<Loan>();
+
 
         public Borrower()
         {
