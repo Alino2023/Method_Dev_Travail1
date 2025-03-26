@@ -39,7 +39,7 @@ namespace Domain.Loans
 
         [Required]
         [Description("The end date of paiements")]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } 
 
         [Required]
         [Description("The exact and precise amount that the borrower undertakes to repay to the bank as part of his loan")]
@@ -57,7 +57,7 @@ namespace Domain.Loans
             DurationInMonths = durationInMonths;
             Status = status;
             StartDate = startDate;
-            EndDate = endDate;
+            EndDate = StartDate.AddMonths(DurationInMonths);
             RemainingAmount = remainingAmount;
             TheBorrower = theBorrower;
         }
