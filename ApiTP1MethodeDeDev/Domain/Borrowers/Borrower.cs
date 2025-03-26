@@ -73,16 +73,6 @@ namespace Domain.Borrowers
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
-        {
-            Sin = sin;
-            FirstName = firstName;
-            LastName = lastName;
-            Phone = phone;
-            Email = email;
-            Address = address;
-            MonthlyIncome = monthlyIncome;  
-        }
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
