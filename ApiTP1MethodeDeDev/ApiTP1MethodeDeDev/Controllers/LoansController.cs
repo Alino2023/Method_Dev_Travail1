@@ -66,11 +66,11 @@ namespace ApiTP1MethodeDeDev.Controllers
         [HttpPost]
         public ActionResult<string> Post([FromBody] LoanRequest loanRequest)
         {
-            if (loanRequest == null)
-                return BadRequest("You have entered bad laon information");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (loanRequest.StartDate != DateTime.Now)
-                return BadRequest("Start date must be the actual date.");
+            if (loanRequest.StartDate.Date != DateTime.Now.Date)
+                return BadRequest("Start date must be today's date.");
 
             var loan = new Loan
             {
@@ -88,7 +88,5 @@ namespace ApiTP1MethodeDeDev.Controllers
             string idLoan = _loanService.Create(loan);
             return CreatedAtAction(nameof(Get), new { idLoan = idLoan }, idLoan);
         }
-
-
     }
 }

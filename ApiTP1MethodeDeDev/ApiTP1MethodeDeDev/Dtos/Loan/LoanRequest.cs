@@ -8,44 +8,31 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
 {
     public class LoanRequest
     {
-        [Key]
-        [Required]
-        [MinLength(1)]
-        [Description("It is an unique integer number of a loan ")]
-        public int IdLoan { get; set; }
+        internal int IdLoan;
 
         [Required]
-        [Description("The whole amount of the loan")]
+        [Range(1, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
         public decimal Amount { get; set; }
 
         [Required]
-        [Description("The rate of interests")]
+        [Range(0, 100, ErrorMessage = "Interest rate must be between 0 and 100%.")]
         public decimal InterestRate { get; set; }
 
         [Required]
-        [Description("Specify the duration of the paiements in months")]
+        [Range(1, int.MaxValue, ErrorMessage = "Duration must be at least 1 month.")]
         public int DurationInMonths { get; set; }
 
         [Required]
-        [Description("The state of the loan. By default it is Pending")]
-        public StatusLoan Status { get; set; } = StatusLoan.Pending;
+        public StatusLoan Status { get; set; }
 
         [Required]
-        [Description("The date when paiements will start")]
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime StartDate { get; set; }
 
-        [Required]
-        [Description("The end date of paiements")]
-        public DateTime EndDate { get; set; }
-
-        [Required]
-        [Description("The exact and precise amount that the borrower undertakes to repay to the bank as part of his loan")]
+        [Range(0, double.MaxValue, ErrorMessage = "Remaining amount cannot be negative.")]
         public decimal RemainingAmount { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A borrower must be assigned to the loan.")]
         public Borrower TheBorrower { get; set; }
-
-        public List<decimal> Loans { get; set; } = new List<decimal>();
-
     }
+
 }

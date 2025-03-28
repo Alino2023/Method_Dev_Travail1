@@ -8,44 +8,27 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
 {
     public class LoanResponse
     {
-        [Key]
-        [Required]
-        [MinLength(1)]
-        [Description("It is an unique integer number of a loan ")]
         public int IdLoan { get; set; }
-
-        [Required]
-        [Description("The whole amount of the loan")]
         public decimal Amount { get; set; }
-
-        [Required]
-        [Description("The rate of interests")]
         public decimal InterestRate { get; set; }
-
-        [Required]
-        [Description("Specify the duration of the paiements in months")]
         public int DurationInMonths { get; set; }
+        public StatusLoan Status { get; set; }
+        public DateTime StartDate { get; set; }
 
-        [Required]
-        [Description("The state of the loan. By default it is Pending")]
-        public StatusLoan Status { get; set; } = StatusLoan.Pending;
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get => _endDate;
+            set
+            {
+                if (StartDate == default || DurationInMonths <= 0)
+                    throw new ArgumentException("Invalid loan duration or start date.");
+                _endDate = StartDate.AddMonths(DurationInMonths);
+            }
+        }
 
-        [Required]
-        [Description("The date when paiements will start")]
-        public DateTime StartDate { get; set; } = DateTime.Now;
-
-        [Required]
-        [Description("The end date of paiements")]
-        public DateTime EndDate { get; set; }
-
-        [Required]
-        [Description("The exact and precise amount that the borrower undertakes to repay to the bank as part of his loan")]
         public decimal RemainingAmount { get; set; }
-
-        [Required]
         public Borrower TheBorrower { get; set; }
-
-        public List<decimal> Loans { get; set; } = new List<decimal>();
-
     }
+
 }
