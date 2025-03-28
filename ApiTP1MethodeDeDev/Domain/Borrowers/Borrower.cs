@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
+using Domain.LatePayment;
 
 namespace Domain.Borrowers
 {
@@ -45,13 +46,13 @@ namespace Domain.Borrowers
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
-
-        [Required]
+        
         [Description("User's bankrupty times in the last 6years")]
         public bool Had_Bankrupty_In_Last_Six_Years { get; set; }
 
+        [Required]
         [Description("User's bankrupty date if exists ")]
-        DateTime BankruptyDate { get; set; }
+        public DateTime BankruptyDate { get; set; }
 
         [Required]
         [Description("Credit Score")]
@@ -59,7 +60,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-        public int NumberOfLatePayements {  get; set; }
+        public List<LatePaymentBorrower> NumberOfLatePayments {  get; set; }
 
 
         [Required]
@@ -69,8 +70,13 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBank> OtherBankLoans { get; set; }
+        public List<OtherBankLoan> OtherBankLoans { get; set; }
+
+        [Required]
+        [Description("List of borrower's job")]
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+
+
         public List<Loan> Loans { get; set; } = new List<Loan>();
 
 
@@ -78,15 +84,15 @@ namespace Domain.Borrowers
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
-        {
-            Sin = sin;
-            FirstName = firstName;
-            LastName = lastName;
-            Phone = phone;
-            Email = email;
-            Address = address; 
-        }
+        //public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
+        //{
+        //    Sin = sin;
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Phone = phone;
+        //    Email = email;
+        //    Address = address; 
+        //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {

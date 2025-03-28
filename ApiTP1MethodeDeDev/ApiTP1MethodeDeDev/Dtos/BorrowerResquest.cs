@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Domain.Bank;
+using Domain.Emploi;
 
 namespace ApiTP1MethodeDeDev.Dtos
 {
@@ -36,5 +38,24 @@ namespace ApiTP1MethodeDeDev.Dtos
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
+
+        [Description("User's bankrupty date if exists ")]
+        public DateTime BankruptyDate { get; set; }
+
+        [Required]
+        [Description("Credit Score")]
+        public int Equifax_Result { get; set; }
+
+        [Required]
+        [Description("Number Of borrower's Late Payements")]
+        public List<DateTime> NumberOfLatePayments { get; set; }
+
+        [Required]
+        [Description("List of monthly payments from other banks")]
+        public List<OtherBankLoan> OtherBankLoans { get; set; }
+
+        [Required]
+        [Description("List of borrower's job")]
+        public List<Job> EmploymentHistory { get; set; } = new List<Job>();
     }
 }

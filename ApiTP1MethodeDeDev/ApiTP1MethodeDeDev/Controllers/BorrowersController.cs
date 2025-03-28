@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Borrowers;
 using Infrastructure;
 using ApiTP1MethodeDeDev.Dtos;
+using Domain.LatePayment;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
@@ -75,8 +76,11 @@ namespace ApiTP1MethodeDeDev.Controllers
                 Phone = borrowerResquest.Phone,
                 Email = borrowerResquest.Email,
                 Address = borrowerResquest.Address,
-
-
+                Equifax_Result = borrowerResquest.Equifax_Result,
+                BankruptyDate = borrowerResquest.BankruptyDate,
+                OtherBankLoans = borrowerResquest.OtherBankLoans,
+                NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower{ LatePaymentDate = date }).ToList(),
+                EmploymentHistory = borrowerResquest.EmploymentHistory
             };
 
             string borrowerSin = _borrowerService.Add(borrower);
