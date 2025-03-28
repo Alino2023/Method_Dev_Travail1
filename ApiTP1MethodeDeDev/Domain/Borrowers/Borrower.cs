@@ -59,12 +59,14 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-        public int NumberOfLatePayements {  get; set; }
+        public int NumberOfLatePayements { get; set; }
 
+        [Required]
+        public decimal MonthlyIncome { get; set; }
 
         [Required]
         [Description("Debt Ratio")]
-        public Decimal DebtRatio {  get; set; }
+        public Decimal DebtRatio { get; set; }
 
 
         [Required]
@@ -72,18 +74,12 @@ namespace Domain.Borrowers
         public List<OtherBank> OtherBankLoans { get; set; }
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
-        public object ActiveLoanPayments { get; private set; }
+        public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
+
 
         public Borrower()
         {
         }
-
-
-
-        //public decimal CalculateDebtRatio()
-        //{
-        //    return CalculateDebtRatio(ActiveLoanPayments);
-        //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
@@ -93,14 +89,32 @@ namespace Domain.Borrowers
             Phone = phone;
             Email = email;
             Address = address;
+            MonthlyIncome = MonthlyIncome;
+        }
+        public void CalculateDebtRatio()
+        {
+            if (MonthlyIncome <= 0)
+            {
+                DebtRatio = 0;
+                return;
+            }
+
+            decimal totalLoanPayments = 0;
+
+            
+            foreach (var loan in OtherBankLoans)
+            {
+                totalLoanPayments += loan.Mensuality;
+            }
+
+            foreach (var loan in Loans)
+            {
+                totalLoanPayments += loan.Mensuality;
+            }
+
+        
+            DebtRatio = (totalLoanPayments / MonthlyIncome) * 100;
         }
 
-        //public decimal CalculateDebtRatio(object activeLoanPayments)
-        //{
-        ////    decimal totalLoanPayments = activeLoanPayments.Sum();
-        ////    return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
-        //}
-
-       
     }
 }
