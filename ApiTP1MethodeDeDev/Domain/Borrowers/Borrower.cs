@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Bank;
 using Domain.Emploi;
+using Domain.Loans;
 
 namespace Domain.Borrowers
 {
@@ -84,8 +85,7 @@ namespace Domain.Borrowers
             LastName = lastName;
             Phone = phone;
             Email = email;
-            Address = address;
-            MonthlyIncome = monthlyIncome;  
+            Address = address; 
         }
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
