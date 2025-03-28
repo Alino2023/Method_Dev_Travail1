@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
+using Domain.LatePayment;
 
 namespace Domain.Borrowers
 {
@@ -40,13 +41,13 @@ namespace Domain.Borrowers
         [MaxLength(255)]
         [Description("User's Address")]
         public string Address { get; set; }
-
-        [Required]
+        
         [Description("User's bankrupty times in the last 6years")]
         public bool Had_Bankrupty_In_Last_Six_Years { get=> BankruptyDate != default && (DateTime.Now - BankruptyDate).TotalDays <= 6 * 365; }
 
+        [Required]
         [Description("User's bankrupty date if exists ")]
-        DateTime BankruptyDate { get; set; }
+        public DateTime BankruptyDate { get; set; }
 
         [Required]
         [Description("Credit Score")]
@@ -54,7 +55,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-        public int NumberOfLatePayements {  get; set; }
+        public List<LatePaymentBorrower> NumberOfLatePayments {  get; set; }
 
 
         [Required]
@@ -64,8 +65,13 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBankLoan> OtherBankLoans { get; set; } = new List<OtherBankLoan>();
+        public List<OtherBankLoan> OtherBankLoans { get; set; }
+
+        [Required]
+        [Description("List of borrower's job")]
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+
+
         public List<Loan> Loans { get; set; } = new List<Loan>();
         public object ActiveLoanPayments { get; private set; }
 
@@ -73,11 +79,14 @@ namespace Domain.Borrowers
         {
         }
 
-
-
-        //public decimal CalculateDebtRatio()
+        //public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
         //{
-        //    return CalculateDebtRatio(ActiveLoanPayments);
+        //    Sin = sin;
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Phone = phone;
+        //    Email = email;
+        //    Address = address; 
         //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
@@ -110,7 +119,7 @@ namespace Domain.Borrowers
         }
         private bool IsMediumRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
-            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result >= 650 && Equifax_Result < 750 && DebtRatio >= 0.25m && DebtRatio < 0.4m && NumberOfLatePayements <= 1
+            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result >= 650 && Equifax_Result < 750 && DebtRatio >= 0.25m && DebtRatio < 0.4m && NumberOfLatePayments.Count <= 1
                 && (jobsInLastTwoYears >= 3 || currentJobIsLessThan12Months))
             {
                 return true ;
@@ -119,7 +128,7 @@ namespace Domain.Borrowers
         }
         private bool IsLowRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
-            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 && NumberOfLatePayements == 0 && DebtRatio < 0.25m && jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
+            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 && NumberOfLatePayments.Count == 0 && DebtRatio < 0.25m && jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
             {
                 return true;
             }
