@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Domain.Borrower;
+using Domain.Borrowers;
 using Infrastructure;
 using ApiTP1MethodeDeDev.Dtos;
 
