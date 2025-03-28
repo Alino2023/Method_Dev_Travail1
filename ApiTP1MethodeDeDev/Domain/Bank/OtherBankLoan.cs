@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Bank
 {
-    public class OtherBank
+    public class OtherBankLoan
     {
 
         [Required]
