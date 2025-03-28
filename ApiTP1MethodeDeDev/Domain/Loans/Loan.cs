@@ -39,7 +39,7 @@ namespace Domain.Loans
 
         [Required]
         [Description("The end date of paiements")]
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; } 
 
         [Required]
         [Description("The exact and precise amount that the borrower undertakes to repay to the bank as part of his loan")]
@@ -49,19 +49,41 @@ namespace Domain.Loans
         public Borrower TheBorrower { get; set; }
 
         public List<decimal> Loans { get; set; } = new List<decimal>();
+
+       
+
         public Loan(int idLoan, decimal amount, decimal interestRate, int durationInMonths, StatusLoan status, DateTime startDate, DateTime endDate, decimal remainingAmount, string borrowerSin, Borrower theBorrower)
         {
+            ValidateLoanDates(startDate, endDate, durationInMonths);
+
             IdLoan = idLoan;
             Amount = amount;
             InterestRate = interestRate;
             DurationInMonths = durationInMonths;
             Status = status;
             StartDate = startDate;
-            EndDate = endDate;
+            EndDate = StartDate.AddMonths(DurationInMonths);
             RemainingAmount = remainingAmount;
             TheBorrower = theBorrower;
         }
 
+        private void ValidateLoanDates(DateTime startDate, DateTime endDate, int durationInMonths)
+        {
+            if (startDate > DateTime.Now)
+            {
+                throw new ArgumentException("The loan start date cannot be in the future.");
+            }
+
+            if (endDate <= startDate)
+            {
+                throw new ArgumentException("The loan end date must be after the start date.");
+            }
+
+            if (endDate != startDate.AddMonths(durationInMonths))
+            {
+                throw new ArgumentException("The loan duration does not match the start and end dates.");
+            }
+        }
         public Loan()
         {
         }

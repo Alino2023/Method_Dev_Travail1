@@ -4,7 +4,6 @@ using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
 
-
 namespace Domain.Borrowers
 {
     public class Borrower
@@ -68,12 +67,18 @@ namespace Domain.Borrowers
         public List<OtherBankLoan> OtherBankLoans { get; set; } = new List<OtherBankLoan>();
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
-
+        public object ActiveLoanPayments { get; private set; }
 
         public Borrower()
         {
         }
 
+
+
+        //public decimal CalculateDebtRatio()
+        //{
+        //    return CalculateDebtRatio(ActiveLoanPayments);
+        //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
@@ -120,5 +125,13 @@ namespace Domain.Borrowers
             }
             return false;
         }
+
+        //public decimal CalculateDebtRatio(object activeLoanPayments)
+        //{
+        ////    decimal totalLoanPayments = activeLoanPayments.Sum();
+        ////    return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
+        //}
+
+       
     }
 }
