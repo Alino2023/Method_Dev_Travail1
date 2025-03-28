@@ -10,6 +10,10 @@ namespace Domain.Bank
 {
     public class OtherBankLoan
     {
+        [Required]
+        public int BankId { get; set; }
+
+        public string BankName { get; set; }
 
         [Required]
         [Description("Loan mensuality")]
