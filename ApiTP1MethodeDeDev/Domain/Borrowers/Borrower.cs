@@ -72,21 +72,18 @@ namespace Domain.Borrowers
         public List<OtherBank> OtherBankLoans { get; set; }
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
         public List<Loan> Loans { get; set; } = new List<Loan>();
-
+        public object ActiveLoanPayments { get; private set; }
 
         public Borrower()
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
-        {
-            Sin = sin;
-            FirstName = firstName;
-            LastName = lastName;
-            Phone = phone;
-            Email = email;
-            Address = address; 
-        }
+
+
+        //public decimal CalculateDebtRatio()
+        //{
+        //    return CalculateDebtRatio(ActiveLoanPayments);
+        //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
@@ -97,5 +94,13 @@ namespace Domain.Borrowers
             Email = email;
             Address = address;
         }
+
+        //public decimal CalculateDebtRatio(object activeLoanPayments)
+        //{
+        ////    decimal totalLoanPayments = activeLoanPayments.Sum();
+        ////    return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
+        //}
+
+       
     }
 }
