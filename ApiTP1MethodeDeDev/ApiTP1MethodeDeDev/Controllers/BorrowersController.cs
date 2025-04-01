@@ -30,11 +30,13 @@ namespace ApiTP1MethodeDeDev.Controllers
             return _borrowerService.GetAll().Select(b =>
                 new BorrowerReponse
                 {
+                    Sin = b.Sin,
                     FirstName = b.FirstName,
                     LastName = b.LastName,
                     Phone = b.Phone,
                     Email = b.Email,
                     Address = b.Address
+
                 });
         }
 
@@ -94,11 +96,11 @@ namespace ApiTP1MethodeDeDev.Controllers
             if (borrower == null)
                 return NotFound();
 
-            borrower.FirstName = borrowerResquest.FirstName;
-            borrower.LastName = borrowerResquest.LastName;
-            borrower.Phone = borrowerResquest.Phone;
-            borrower.Email = borrowerResquest.Email;
-            borrower.Address = borrowerResquest.Address;
+            //borrower.FirstName = borrowerResquest.FirstName;
+            //borrower.LastName = borrowerResquest.LastName;
+            //borrower.Phone = borrowerResquest.Phone;
+            //borrower.Email = borrowerResquest.Email;
+            //borrower.Address = borrowerResquest.Address;
 
             _borrowerService.Update(borrower);
             return NoContent();
