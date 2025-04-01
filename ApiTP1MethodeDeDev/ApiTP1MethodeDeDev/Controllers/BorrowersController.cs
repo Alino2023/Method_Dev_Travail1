@@ -105,6 +105,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             var borrower = _borrowerService.GetBySin(sin);
             if (borrower == null)
                 return NotFound();
+             
 
             //borrower.FirstName = borrowerResquest.FirstName;
             //borrower.LastName = borrowerResquest.LastName;
