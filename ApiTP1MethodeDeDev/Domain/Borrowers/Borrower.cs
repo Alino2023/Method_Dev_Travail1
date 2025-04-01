@@ -90,31 +90,25 @@ namespace Domain.Borrowers
             Phone = phone;
             Email = email;
             Address = address;
-            MonthlyIncome = MonthlyIncome;
+         
         }
         public void CalculateDebtRatio()
         {
-            if (MonthlyIncome <= 0)
+            Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
+
+            if (jobActuel == null)
             {
-                DebtRatio = 0;
-                return;
+                throw new InvalidOperationException("No employment found in the history to calculate the debt ratio.");
             }
 
-            decimal totalLoanPayments = 0;
-
-            
-            foreach (var loan in OtherBankLoans)
+            if (jobActuel.MentualSalary <= 0)
             {
-                totalLoanPayments += loan.Mensuality;
+                throw new InvalidOperationException("The current job's salary must be greater than zero to calculate the debt ratio.");
             }
 
-            foreach (var loan in Loans)
-            {
-                totalLoanPayments += loan.MonthlyPayment;
-            }
+            decimal totalLoanPayments = OtherBankLoans.Sum(loan => loan.Mensuality) + Loans.Sum(loan => loan.MonthlyPayment);
 
-        
-            DebtRatio = (totalLoanPayments / MonthlyIncome) * 100;
+            DebtRatio = (totalLoanPayments / jobActuel.MentualSalary) * 100;
         }
         public string ClassifyRisk()
         {
