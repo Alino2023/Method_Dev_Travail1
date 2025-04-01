@@ -110,7 +110,7 @@ namespace Domain.Borrowers
 
             foreach (var loan in Loans)
             {
-                totalLoanPayments += loan.Mensuality;
+                totalLoanPayments += loan.MonthlyPayment;
             }
 
         
