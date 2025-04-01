@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Loan\" />
     <Folder Include="Views\Loan\" />
   </ItemGroup>
 
