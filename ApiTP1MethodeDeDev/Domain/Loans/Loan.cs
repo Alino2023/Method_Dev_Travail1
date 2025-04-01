@@ -49,6 +49,11 @@ namespace Domain.Loans
         [Required]
         public Borrower TheBorrower { get; set; }
 
+        [Required]
+        [Description("The monthly payment amount for the loan")]
+        public decimal MonthlyPayment { get; set; }
+
+
         public List<decimal> Loans { get; set; } = new List<decimal>();
 
 
@@ -86,6 +91,7 @@ namespace Domain.Loans
         }
         public Loan()
         {
+
         }
     }
 }
