@@ -12,6 +12,6 @@ namespace Domain.Loans
         Loan GetByIdLoan(int idLoan);
         string Create(Loan loan);
         void Update(Loan loan);
-        object AddLoanAsync(Loan loan);
+        //object AddLoanAsync(Loan loan);
     }
 }
