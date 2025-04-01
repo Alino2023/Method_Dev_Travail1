@@ -35,7 +35,12 @@ namespace ApiTP1MethodeDeDev.Controllers
                     LastName = b.LastName,
                     Phone = b.Phone,
                     Email = b.Email,
-                    Address = b.Address
+                    Address = b.Address,
+                    Equifax_Result = b.Equifax_Result,
+                    BankruptyDate = b.BankruptyDate,
+                    OtherBankLoans = b.OtherBankLoans,
+                    NumberOfLatePayments = b.NumberOfLatePayments,
+                    EmploymentHistory = b.EmploymentHistory
 
                 });
         }
@@ -54,7 +59,12 @@ namespace ApiTP1MethodeDeDev.Controllers
                         FirstName = borrower.FirstName,
                         Phone = borrower.Phone,
                         Email = borrower.Email,
-                        Address = borrower.Address
+                        Address = borrower.Address,
+                        Equifax_Result = borrower.Equifax_Result,
+                        BankruptyDate = borrower.BankruptyDate,
+                        OtherBankLoans = borrower.OtherBankLoans,
+                        NumberOfLatePayments = borrower.NumberOfLatePayments,
+                        EmploymentHistory = borrower.EmploymentHistory
                     }
                 );
             }
