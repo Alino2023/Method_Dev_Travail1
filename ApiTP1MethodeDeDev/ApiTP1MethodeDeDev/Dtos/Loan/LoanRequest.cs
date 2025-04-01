@@ -8,7 +8,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
 {
     public class LoanRequest
     {
-        internal int IdLoan;
+        public int IdLoan;
 
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
