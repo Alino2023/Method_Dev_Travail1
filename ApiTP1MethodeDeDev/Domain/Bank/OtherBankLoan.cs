@@ -22,9 +22,9 @@ namespace Domain.Bank
         [Required]
         [Description("Loan Remaining Balance")]
         public decimal RemainingBalance {  get; set; }
-
         [Required]
         [Description("Reason for the loan ")]
         public string Reason { get; set; }
+        public decimal MonthlyPayment { get; set; }
     }
 }
