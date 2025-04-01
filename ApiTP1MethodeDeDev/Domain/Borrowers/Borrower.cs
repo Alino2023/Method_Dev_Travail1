@@ -57,10 +57,12 @@ namespace Domain.Borrowers
         [Description("Number Of borrower's Late Payements")]
         public List<LatePaymentBorrower> NumberOfLatePayments {  get; set; }
 
+        [Required]
+        public decimal MonthlyIncome { get; set; }
 
         [Required]
         [Description("Debt Ratio")]
-        public Decimal DebtRatio {  get; set; }
+        public Decimal DebtRatio { get; set; }
 
 
         [Required]
@@ -73,21 +75,12 @@ namespace Domain.Borrowers
 
 
         public List<Loan> Loans { get; set; } = new List<Loan>();
-        public object ActiveLoanPayments { get; private set; }
+        public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
+
 
         public Borrower()
         {
         }
-
-        //public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, decimal monthlyIncome)
-        //{
-        //    Sin = sin;
-        //    FirstName = firstName;
-        //    LastName = lastName;
-        //    Phone = phone;
-        //    Email = email;
-        //    Address = address; 
-        //}
 
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
         {
@@ -97,6 +90,25 @@ namespace Domain.Borrowers
             Phone = phone;
             Email = email;
             Address = address;
+         
+        }
+        public void CalculateDebtRatio()
+        {
+            Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
+
+            if (jobActuel == null)
+            {
+                throw new InvalidOperationException("No employment found in the history to calculate the debt ratio.");
+            }
+
+            if (jobActuel.MentualSalary <= 0)
+            {
+                throw new InvalidOperationException("The current job's salary must be greater than zero to calculate the debt ratio.");
+            }
+
+            decimal totalLoanPayments = OtherBankLoans.Sum(loan => loan.Mensuality) + Loans.Sum(loan => loan.MonthlyPayment);
+
+            DebtRatio = (totalLoanPayments / jobActuel.MentualSalary) * 100;
         }
         public string ClassifyRisk()
         {
@@ -135,12 +147,5 @@ namespace Domain.Borrowers
             return false;
         }
 
-        //public decimal CalculateDebtRatio(object activeLoanPayments)
-        //{
-        ////    decimal totalLoanPayments = activeLoanPayments.Sum();
-        ////    return (MonthlyIncome > 0) ? (totalLoanPayments / MonthlyIncome) * 100 : 0;
-        //}
-
-       
     }
 }
