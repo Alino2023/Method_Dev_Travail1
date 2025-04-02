@@ -22,13 +22,13 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
             set
             {
                 if (StartDate == default || DurationInMonths <= 0)
-                    throw new ArgumentException("Invalid loan duration or start date.");
+                    throw new ArgumentException("Invalid loan duration or start date");
                 _endDate = StartDate.AddMonths(DurationInMonths);
             }
         }
 
         public decimal RemainingAmount { get; set; }
-        public Borrower TheBorrower { get; set; }
+        public required Borrower TheBorrower { get; set; }
     }
 
 }
