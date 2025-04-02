@@ -9,6 +9,8 @@ using Domain.Borrowers;
 using Infrastructure;
 using ApiTP1MethodeDeDev.Dtos;
 using Domain.LatePayment;
+using Domain.Bank;
+using Domain.Emploi;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
@@ -90,9 +92,26 @@ namespace ApiTP1MethodeDeDev.Controllers
                 Address = borrowerResquest.Address,
                 Equifax_Result = borrowerResquest.Equifax_Result,
                 BankruptyDate = borrowerResquest.BankruptyDate,
-                OtherBankLoans = borrowerResquest.OtherBankLoans,
-                NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower{ LatePaymentDate = date }).ToList(),
-                EmploymentHistory = borrowerResquest.EmploymentHistory
+                OtherBankLoans = borrowerResquest.OtherBankLoans.Select(otherBank => new OtherBankLoan
+                {
+                    BankName = otherBank.BankName,
+                    Mensuality = otherBank.Mensuality,
+                    RemainingBalance = otherBank.RemainingBalance,
+                    Reason = otherBank.Reason
+                }).ToList(),
+
+                NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower
+                {
+                    LatePaymentDate = date.LatePaymentDate
+                }).ToList(),
+
+                EmploymentHistory = borrowerResquest.EmploymentHistory.Select(employHistory => new Job
+                {
+                    InstitutionName = employHistory.InstitutionName,
+                    StartingDate = employHistory.StartingDate,
+                    EndingDate = employHistory.EndingDate,
+                    MentualSalary = employHistory.MentualSalary
+                }).ToList(),
             };
 
             string borrowerSin = _borrowerService.Add(borrower);
