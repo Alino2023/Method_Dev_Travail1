@@ -110,6 +110,7 @@ namespace Domain.Borrowers
 
             DebtRatio = (totalLoanPayments / jobActuel.MentualSalary) * 100;
         }
+
         public string ClassifyRisk()
         {
             int jobsInLastTwoYears = EmploymentHistory.Count(job => job.StartingDate >= DateTime.Now.AddYears(-2));
@@ -131,7 +132,7 @@ namespace Domain.Borrowers
         }
         private bool IsMediumRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
-            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result >= 650 && Equifax_Result < 750 && DebtRatio >= 0.25m && DebtRatio < 0.4m && NumberOfLatePayments.Count <= 1
+            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result >= 650 && Equifax_Result < 750 && DebtRatio >= 0.25m && DebtRatio < 0.4m && NumberOfLatePayments.Where(n => n.LatePaymentDate >= DateTime.Now.AddMonths(-6)).Count() <= 1
                 && (jobsInLastTwoYears >= 3 || currentJobIsLessThan12Months))
             {
                 return true ;
@@ -140,7 +141,7 @@ namespace Domain.Borrowers
         }
         private bool IsLowRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
-            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 && NumberOfLatePayments.Count == 0 && DebtRatio < 0.25m && jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
+            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 && NumberOfLatePayments.Where(n => n.LatePaymentDate >= DateTime.Now.AddMonths(-6)).Count() == 0 && DebtRatio < 0.25m && jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
             {
                 return true;
             }
