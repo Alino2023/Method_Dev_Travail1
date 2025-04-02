@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using Domain.Bank;
 using Domain.Emploi;
+using Domain.LatePayment;
+using Infrastructure;
 
 namespace ApiTP1MethodeDeDev.Dtos
 {
@@ -48,14 +50,14 @@ namespace ApiTP1MethodeDeDev.Dtos
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-        public List<DateTime> NumberOfLatePayments { get; set; }
+        public List<LatePaymentRequest> NumberOfLatePayments { get; set; }
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBankLoan> OtherBankLoans { get; set; }
+        public List<OtherBankLoanRequest> OtherBankLoans { get; set; }
 
         [Required]
         [Description("List of borrower's job")]
-        public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+        public List<JobRequest> EmploymentHistory { get; set; } = new List<JobRequest>();
     }
 }
