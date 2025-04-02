@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.LatePayment
+namespace Infrastructure
 {
-    public class LatePaymentBorrower
+    public class LatePaymentBorrowerEntity
     {
         [Key]
         public int LatePaymentId { get; set; }
 
-        public DateTime LatePaymentDate {  get; set; }
+        public DateTime LatePaymentDate { get; set; }
     }
 }
