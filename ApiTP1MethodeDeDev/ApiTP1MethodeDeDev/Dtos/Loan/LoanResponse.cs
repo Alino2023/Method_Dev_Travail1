@@ -28,7 +28,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         }
 
         public decimal RemainingAmount { get; set; }
-        public required Borrower TheBorrower { get; set; }
+        public BorrowerReponse TheBorrower { get; set; }
     }
 
 }
