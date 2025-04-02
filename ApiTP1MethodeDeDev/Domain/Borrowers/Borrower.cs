@@ -82,7 +82,18 @@ namespace Domain.Borrowers
         {
         }
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        //public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
+        //{
+        //    Sin = sin;
+        //    FirstName = firstName;
+        //    LastName = lastName;
+        //    Phone = phone;
+        //    Email = email;
+        //    Address = address;
+         
+        //}
+
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory)
         {
             Sin = sin;
             FirstName = firstName;
@@ -90,8 +101,13 @@ namespace Domain.Borrowers
             Phone = phone;
             Email = email;
             Address = address;
-         
+            Equifax_Result = equifax_Result;
+            BankruptyDate = bankruptyDate;
+            OtherBankLoans = otherBankLoans;
+            NumberOfLatePayments = numberOfLatePayments;
+            EmploymentHistory = employmentHistory;    
         }
+
         public void CalculateDebtRatio()
         {
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
