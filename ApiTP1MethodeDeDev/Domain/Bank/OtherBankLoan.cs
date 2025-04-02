@@ -25,6 +25,5 @@ namespace Domain.Bank
         [Required]
         [Description("Reason for the loan ")]
         public string Reason { get; set; }
-        public decimal MonthlyPayment { get; set; }
     }
 }
