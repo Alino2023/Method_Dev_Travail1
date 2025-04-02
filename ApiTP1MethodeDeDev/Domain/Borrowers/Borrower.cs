@@ -117,10 +117,16 @@ namespace Domain.Borrowers
             Job currentJob = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
             bool currentJobIsLessThan12Months = ((currentJob != null) && ((DateTime.Now - currentJob.StartingDate).TotalDays < 365));
 
-            return  IsHighRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "High Risk" :
-                    IsMediumRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "Medium Risk" :
-                    IsLowRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "Low Risk" :
-                    "Error in the classification of risk";
+            if (Equifax_Result < 650 || DebtRatio > 0.4m || IsHighRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "High Risk";
+
+            if ((Equifax_Result >= 650 && Equifax_Result <= 750 && DebtRatio <= 0.4m) || IsMediumRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "Medium Risk";
+
+            if ((Equifax_Result > 750 && DebtRatio <= 0.3m) || IsLowRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "Low Risk";
+
+            return "Error in the classification of risk";
         }
         private bool IsHighRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
