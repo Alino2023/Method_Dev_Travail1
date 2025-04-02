@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Borrowers;
 
 namespace Domain.Loans
 {
@@ -40,6 +41,16 @@ namespace Domain.Loans
         public IList<Loan> GetAll()
         {
             return _loanRepository.GetAll();
+        }
+
+        public async Task<Borrower?> GetBorrowerBySin(string sin)
+        {
+            if (string.IsNullOrWhiteSpace(sin))
+            {
+                throw new ArgumentException("SIN cannot be null or empty.", nameof(sin));
+            }
+
+            return await _loanRepository.GetBorrowerBySin(sin);
         }
 
         public Loan GetByIdLoan(int idLoan)
