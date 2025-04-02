@@ -78,7 +78,7 @@ namespace Domain.Borrowers
         public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
 
 
-        public Borrower()
+        public Borrower()// doit etre supprimée 
         {
         }
 

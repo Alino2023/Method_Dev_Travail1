@@ -101,7 +101,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 StartDate = loanRequest.StartDate,
                 EndDate = loanRequest.StartDate.AddMonths(loanRequest.DurationInMonths),
                 RemainingAmount = loanRequest.RemainingAmount,
-                TheBorrower = loanRequest.TheBorrower
+                TheBorrower = new Borrower()//on doit remplacer ca par le borrower avec ses parametres 
             };
 
             string idLoan = _loanService.Create(loan);

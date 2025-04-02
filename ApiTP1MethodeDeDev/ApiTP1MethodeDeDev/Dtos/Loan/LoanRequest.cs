@@ -30,8 +30,8 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         public decimal RemainingAmount { get; set; }
 
         [Required(ErrorMessage = "A borrower must be assigned to the loan.")]
-        public Borrower TheBorrower { get; set; }
-        public int IdLoan { get; internal set; }
+        public BorrowerResquest TheBorrower { get; set; }
+        public int IdLoan { get; set; }
     }
 
 }
