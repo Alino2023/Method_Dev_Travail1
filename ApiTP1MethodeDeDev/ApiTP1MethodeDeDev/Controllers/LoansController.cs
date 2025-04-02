@@ -1,8 +1,11 @@
-﻿using ApiTP1MethodeDeDev.Dtos;
+﻿using System.Net;
+using ApiTP1MethodeDeDev.Dtos;
 using ApiTP1MethodeDeDev.Dtos.Loan;
+using Domain.Bank;
 using Domain.Borrowers;
 using Domain.Loans;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
@@ -35,7 +38,15 @@ namespace ApiTP1MethodeDeDev.Controllers
                         StartDate = loan.StartDate,
                         EndDate = loan.StartDate.AddMonths(loan.DurationInMonths),
                         RemainingAmount = loan.RemainingAmount,
-                        TheBorrower = loan.TheBorrower
+                        TheBorrower = new BorrowerReponse()
+                        {
+                            Sin = loan.TheBorrower.Sin,
+                            FirstName = loan.TheBorrower.FirstName,
+                            LastName = loan.TheBorrower.LastName,
+                            Phone = loan.TheBorrower.Phone,
+                            Email = loan.TheBorrower.Email,
+                            Address = loan.TheBorrower.Address
+                        }
                     }
                 );
             }
@@ -59,7 +70,15 @@ namespace ApiTP1MethodeDeDev.Controllers
                     StartDate = l.StartDate,
                     EndDate = l.StartDate.AddMonths(l.DurationInMonths),
                     RemainingAmount = l.RemainingAmount,
-                    TheBorrower = l.TheBorrower
+                    TheBorrower = new BorrowerReponse()
+                    {
+                        Sin = l.TheBorrower.Sin,
+                        FirstName = l.TheBorrower.FirstName,
+                        LastName = l.TheBorrower.LastName,
+                        Phone = l.TheBorrower.Phone,
+                        Email = l.TheBorrower.Email,
+                        Address = l.TheBorrower.Address
+                    }
                 });
         }
 
@@ -82,7 +101,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 StartDate = loanRequest.StartDate,
                 EndDate = loanRequest.StartDate.AddMonths(loanRequest.DurationInMonths),
                 RemainingAmount = loanRequest.RemainingAmount,
-                TheBorrower = loanRequest.TheBorrower
+                TheBorrower = new Borrower()//on doit remplacer ca par le borrower avec ses parametres 
             };
 
             string idLoan = _loanService.Create(loan);
