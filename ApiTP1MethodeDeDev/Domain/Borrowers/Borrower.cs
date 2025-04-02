@@ -62,7 +62,7 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("Debt Ratio")]
-        public Decimal DebtRatio { get; set; }
+        public Decimal DebtRatio { get => CalculateDebtRatio(); }
 
 
         [Required]
@@ -92,7 +92,7 @@ namespace Domain.Borrowers
             Address = address;
          
         }
-        public void CalculateDebtRatio()
+        public decimal CalculateDebtRatio()
         {
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
 
@@ -108,7 +108,7 @@ namespace Domain.Borrowers
 
             decimal totalLoanPayments = OtherBankLoans.Sum(loan => loan.Mensuality) + Loans.Sum(loan => loan.MonthlyPayment);
 
-            DebtRatio = (totalLoanPayments / jobActuel.MentualSalary) * 100;
+            return ((totalLoanPayments / jobActuel.MentualSalary) * 100);
         }
 
         public string ClassifyRisk()
