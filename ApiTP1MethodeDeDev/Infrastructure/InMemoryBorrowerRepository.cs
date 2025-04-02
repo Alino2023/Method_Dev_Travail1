@@ -29,7 +29,12 @@ namespace Infrastructure
                 LastName = borrower.LastName,
                 Phone = borrower.Phone,
                 Email = borrower.Email,
-                Address = borrower.Address
+                Address = borrower.Address,
+                Equifax_Result = borrower.Equifax_Result,
+                BankruptyDate = borrower.BankruptyDate,
+                OtherBankLoans = borrower.OtherBankLoans,
+                NumberOfLatePayments = borrower.NumberOfLatePayments,
+                EmploymentHistory = borrower.EmploymentHistory
             };
 
             _appDbContext.Borrowers.Add(borrowerEntity);
@@ -40,7 +45,7 @@ namespace Infrastructure
 
         public List<Borrower> GetAll()
         {
-            return _appDbContext.Borrowers.Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Phone, b.Email, b.Address)).ToList();
+            return _appDbContext.Borrowers.Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Phone, b.Email, b.Address,  b.Equifax_Result, b.BankruptyDate, b.OtherBankLoans, b.NumberOfLatePayments, b.EmploymentHistory)).ToList();
 
         }
 
@@ -53,7 +58,7 @@ namespace Infrastructure
                 throw new KeyNotFoundException($"Borrower with SIN {sin} not found.");
             }
 
-            return new Borrower(borrowerEntity.Sin, borrowerEntity.FirstName, borrowerEntity.LastName, borrowerEntity.Phone, borrowerEntity.Email, borrowerEntity.Address);
+            return new Borrower(borrowerEntity.Sin, borrowerEntity.FirstName, borrowerEntity.LastName, borrowerEntity.Phone, borrowerEntity.Email, borrowerEntity.Address, borrowerEntity.Equifax_Result, borrowerEntity.BankruptyDate, borrowerEntity.OtherBankLoans, borrowerEntity.NumberOfLatePayments, borrowerEntity.EmploymentHistory);
         }
 
         public void Update(Borrower borrower)
