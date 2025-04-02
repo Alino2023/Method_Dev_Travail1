@@ -10,6 +10,7 @@ namespace Domain.Bank
 {
     public class OtherBankLoan
     {
+        [Key]
         [Required]
         public int BankId { get; set; }
 
