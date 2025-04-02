@@ -63,8 +63,27 @@ namespace Infrastructure
 
         public void Update(Borrower borrower)
         {
-            throw new NotImplementedException();
+            if (borrower == null)
+                throw new ArgumentNullException(nameof(borrower));
+
+            var borrowerEntity = _appDbContext.Borrowers.FirstOrDefault(b => b.Sin == borrower.Sin);
+            if (borrowerEntity == null)
+                throw new KeyNotFoundException($"Borrower with SIN {borrower.Sin} not found.");
+
+            borrowerEntity.FirstName = borrower.FirstName;
+            borrowerEntity.LastName = borrower.LastName;
+            borrowerEntity.Phone = borrower.Phone;
+            borrowerEntity.Email = borrower.Email;
+            borrowerEntity.Address = borrower.Address;
+            borrowerEntity.Equifax_Result = borrower.Equifax_Result;
+            borrowerEntity.BankruptyDate = borrower.BankruptyDate;
+            borrowerEntity.OtherBankLoans = borrower.OtherBankLoans;
+            borrowerEntity.NumberOfLatePayments = borrower.NumberOfLatePayments;
+            borrowerEntity.EmploymentHistory = borrower.EmploymentHistory;
+
+            _appDbContext.SaveChanges();
         }
+
 
 
         //private static Borrower BorrowerToEntity(Borrower borrower) =>
