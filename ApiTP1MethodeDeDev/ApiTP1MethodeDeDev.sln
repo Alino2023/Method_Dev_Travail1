@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests_old", "Tests\Tests_ol
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "LoanRequestTest\Tests.csproj", "{A17B3761-4464-4215-9705-00F5AE9A3D13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{051CCAAE-2323-42AF-8107-C464176187C5} = {051CCAAE-2323-42AF-8107-C464176187C5}
+		{99209FAF-8235-412C-A488-E863EAED35FB} = {99209FAF-8235-412C-A488-E863EAED35FB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
