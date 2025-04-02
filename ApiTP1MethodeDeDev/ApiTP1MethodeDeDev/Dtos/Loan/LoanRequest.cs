@@ -8,9 +8,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
 {
     public class LoanRequest
     {
-        public int IdLoan;
-
-        [Required]
+        [Required(ErrorMessage = "Amount must be greater than zero.")]
         [Range(1, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
         public decimal Amount { get; set; }
 
@@ -28,11 +26,12 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         [Required]
         public DateTime StartDate { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "Remaining amount cannot be negative.")]
+        [Required]
         public decimal RemainingAmount { get; set; }
 
         [Required(ErrorMessage = "A borrower must be assigned to the loan.")]
         public Borrower TheBorrower { get; set; }
+        public int IdLoan { get; internal set; }
     }
 
 }

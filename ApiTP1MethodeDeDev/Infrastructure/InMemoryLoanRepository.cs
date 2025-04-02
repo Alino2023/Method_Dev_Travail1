@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Borrowers;
 using Domain.Loans;
 
 namespace Infrastructure
@@ -27,6 +28,11 @@ namespace Infrastructure
         }
 
         public List<Loan> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Borrower?> GetBorrowerBySin(string sin)
         {
             throw new NotImplementedException();
         }
