@@ -146,20 +146,17 @@ namespace ApiTP1MethodeDeDev.Controllers
                 LatePaymentDate = date.LatePaymentDate
             }).ToList();
 
-            borrower.EmploymentHistory = borrowerResquest.EmploymentHistory.Select(employHistory => new Job
+            borrower.EmploymentHistory = borrowerResquest.EmploymentHistory.Select(job => new Job
             {
-                InstitutionName = employHistory.InstitutionName,
-                StartingDate = employHistory.StartingDate,
-                EndingDate = employHistory.EndingDate,
-                MentualSalary = employHistory.MentualSalary
+                InstitutionName = job.InstitutionName,
+                StartingDate = job.StartingDate,
+                EndingDate = job.EndingDate,
+                MentualSalary = job.MentualSalary
             }).ToList();
 
             _borrowerService.Update(borrower);
             return NoContent();
         }
-
-
-
 
 
     }
