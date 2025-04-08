@@ -15,11 +15,14 @@ namespace ApiTP1MethodeDeDev.Controllers
 
     { 
         private readonly ILoanService _loanService;
+        private readonly IBorrowerService _borrowerService;
 
-        public LoansController(ILoanService loanService)
+        public LoansController(ILoanService loanService, IBorrowerService borrowerService)
         {
             _loanService = loanService;
+            _borrowerService = borrowerService;
         }
+
 
         [HttpGet("{idLoan}")]
         public ActionResult<LoanResponse> Get(int idLoan)
@@ -91,6 +94,10 @@ namespace ApiTP1MethodeDeDev.Controllers
             if (loanRequest.StartDate.Date != DateTime.Now.Date)
                 return BadRequest("Start date must be today's date.");
 
+            var borrower = _borrowerService.GetBySin(loanRequest.BorrowerSin);
+            if (borrower == null)
+                return NotFound($"No borrower found with SIN: {loanRequest.BorrowerSin}");
+
             var loan = new Loan
             {
                 IdLoan = loanRequest.IdLoan,
@@ -101,11 +108,21 @@ namespace ApiTP1MethodeDeDev.Controllers
                 StartDate = loanRequest.StartDate,
                 EndDate = loanRequest.StartDate.AddMonths(loanRequest.DurationInMonths),
                 RemainingAmount = loanRequest.RemainingAmount,
-                TheBorrower = new Borrower()//on doit remplacer ca par le borrower avec ses parametres 
+                TheBorrower = borrower,
+                MonthlyPayment = CalculateMonthlyPayment(loanRequest.Amount, loanRequest.InterestRate, loanRequest.DurationInMonths)
             };
 
             string idLoan = _loanService.Create(loan);
             return CreatedAtAction(nameof(Get), new { idLoan = idLoan }, idLoan);
         }
+
+        private decimal CalculateMonthlyPayment(decimal amount, decimal interestRate, int duration)
+        {
+            var monthlyRate = interestRate / 12 / 100;
+            return (monthlyRate == 0)
+                ? amount / duration
+                : amount * monthlyRate / (1 - (decimal)Math.Pow(1 + (double)monthlyRate, -duration));
+        }
+
     }
 }

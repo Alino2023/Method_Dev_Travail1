@@ -77,23 +77,15 @@ namespace Domain.Borrowers
         public List<Loan> Loans { get; set; } = new List<Loan>();
         public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
 
+        //public IBorrowerService BorrowerService { get; set; }
 
-        public Borrower()// doit etre supprimée 
+
+        public Borrower()
         {
         }
 
-        //public Borrower(string sin, string firstName, string lastName, string phone, string email, string address)
-        //{
-        //    Sin = sin;
-        //    FirstName = firstName;
-        //    LastName = lastName;
-        //    Phone = phone;
-        //    Email = email;
-        //    Address = address;
-         
-        //}
 
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory)
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory)//, IBorrowerService borrowerService)
         {
             Sin = sin;
             FirstName = firstName;
@@ -105,10 +97,12 @@ namespace Domain.Borrowers
             BankruptyDate = bankruptyDate;
             OtherBankLoans = otherBankLoans;
             NumberOfLatePayments = numberOfLatePayments;
-            EmploymentHistory = employmentHistory;    
+            EmploymentHistory = employmentHistory;  
+            //BorrowerService = borrowerService;
         }
         public decimal CalculateDebtRatio()
         {
+
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
 
             if (jobActuel == null)
@@ -124,6 +118,8 @@ namespace Domain.Borrowers
             decimal totalLoanPayments = OtherBankLoans.Sum(loan => loan.Mensuality) + Loans.Sum(loan => loan.MonthlyPayment);
 
             return ((totalLoanPayments / jobActuel.MentualSalary) * 100);
+
+            //return BorrowerService.CalculateDebtRatio(this);
         }
 
         public string ClassifyRisk()

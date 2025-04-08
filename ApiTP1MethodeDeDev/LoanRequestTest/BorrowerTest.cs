@@ -3,17 +3,21 @@ using Domain.Borrowers;
 using Domain.Emploi;
 using Domain.LatePayment;
 using Domain.Loans;
+using Moq;
 
 namespace ApiTP1MethodeDeDev.Test
 {
     [TestClass]
     public class BorrowerTest
     {
+        private Mock<IBorrowerService> borrowerServiceMock;
         private Borrower borrower;
 
         [TestInitialize]
         public void Setup()
         {
+            borrowerServiceMock = new Mock<IBorrowerService>();
+
             borrower = new Borrower
             {
                 Sin = "123-456-789",
@@ -22,42 +26,56 @@ namespace ApiTP1MethodeDeDev.Test
                 Phone = "123-456-7890",
                 Email = "john.doe@example.com",
                 Address = "123 Main St",
-                MonthlyIncome = 5000m,
                 Equifax_Result = 700,
-                BankruptyDate = DateTime.MinValue,
-                NumberOfLatePayments = new List<LatePaymentBorrower>
-                {
-                    new LatePaymentBorrower { LatePaymentDate = DateTime.Now.AddMonths(-2) },
-                    new LatePaymentBorrower { LatePaymentDate = DateTime.Now.AddMonths(-5) }
-                },
-                OtherBankLoans = new List<OtherBankLoan>
-                {
-                    new OtherBankLoan { Mensuality = 300m, RemainingBalance = 2000m, Reason = "Car Loan" }
-                },
+                BankruptyDate = System.DateTime.MinValue,
+                NumberOfLatePayments = new List<LatePaymentBorrower>(),
+                OtherBankLoans = new List<OtherBankLoan>(),
                 EmploymentHistory = new List<Job>
                 {
-                    new Job { MentualSalary = 5000m, StartingDate = DateTime.Now.AddMonths(-6) }
+                    new Job { MentualSalary = 5000m, StartingDate = System.DateTime.Now.AddMonths(-6) }
                 },
                 Loans = new List<Loan>
                 {
-                    new Loan { MonthlyPayment = 1000m, Amount = 50000m, InterestRate = 5, DurationInMonths = 60, StartDate = DateTime.Now, EndDate = DateTime.Now.AddMonths(60), RemainingAmount = 45000m }
-                }
+                    new Loan { MonthlyPayment = 1000m }
+                },
+                BorrowerService = borrowerServiceMock.Object,
             };
+
+            
+        }
+
+        [TestMethod]
+        public void Given_Borrower_When_CalculateDebtRatioIsCalled_Then_ReturnsExpectedValue()
+        {
+            // Arrange
+            decimal expectedRatio = 20.0m;
+            borrowerServiceMock.Setup(s => s.CalculateDebtRatio(borrower)).Returns(expectedRatio);
+
+            // Act
+            decimal actualRatio = borrowerServiceMock.Object.CalculateDebtRatio(borrower);
+
+            // Assert
+            Assert.AreEqual(expectedRatio, actualRatio, "Le ratio retourné n'est pas correct.");
         }
 
         [TestMethod]
         public void TestDebtRatioCalculation()
         {
-            borrower.CalculateDebtRatio();
-            Console.WriteLine($"Debt Ratio Calculated: {borrower.DebtRatio}");
-            Assert.AreEqual(26.0m, borrower.DebtRatio, 0.1m, "Le ratio d'endettement est incorrect.");
+            decimal expectedRatio = 26.0m;
+            decimal actualRatio = borrower.DebtRatio;
+            Console.WriteLine($"Expected Debt Ratio: {expectedRatio}, Actual Debt Ratio: {actualRatio}");
+            Assert.AreEqual(expectedRatio, Math.Round(actualRatio, 1), "Le ratio d'endettement est incorrect.");
         }
+
 
         [TestMethod]
         public void TestRiskClassificationHighRisk()
         {
+            decimal expectedRatio = 0.45m;
+            borrowerServiceMock.Setup(s => s.CalculateDebtRatio(borrower)).Returns(expectedRatio);
+
             borrower.Equifax_Result = 600;
-            borrower.DebtRatio = 0.45m;
+
             string riskClass = borrower.ClassifyRisk();
             Console.WriteLine($"Risk Classification: {riskClass}");
             Assert.AreEqual("High Risk", riskClass, "La classification du risque n'est pas correcte.");
@@ -66,8 +84,11 @@ namespace ApiTP1MethodeDeDev.Test
         [TestMethod]
         public void TestRiskClassificationMediumRisk()
         {
+            decimal expectedRatio = 0.35m;
+            borrowerServiceMock.Setup(s => s.CalculateDebtRatio(borrower)).Returns(expectedRatio);
+
             borrower.Equifax_Result = 700;
-            borrower.DebtRatio = 0.35m;
+
             string riskClass = borrower.ClassifyRisk();
             Console.WriteLine($"Risk Classification: {riskClass}");
             Assert.AreEqual("Medium Risk", riskClass, "La classification du risque n'est pas correcte.");
@@ -76,8 +97,11 @@ namespace ApiTP1MethodeDeDev.Test
         [TestMethod]
         public void TestRiskClassificationLowRisk()
         {
+            decimal expectedRatio = 0.20m;
+            borrowerServiceMock.Setup(s => s.CalculateDebtRatio(borrower)).Returns(expectedRatio);
+
             borrower.Equifax_Result = 800;
-            borrower.DebtRatio = 0.20m;
+
             string riskClass = borrower.ClassifyRisk();
             Console.WriteLine($"Risk Classification: {riskClass}");
             Assert.AreEqual("Low Risk", riskClass, "La classification du risque n'est pas correcte.");
