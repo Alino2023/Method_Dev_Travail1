@@ -37,24 +37,23 @@ namespace ApiTP1MethodeDeDev.Tests
                 Equifax_Result = 700,
                 NumberOfLatePayments = new List<LatePaymentBorrower>(), // Aucun retard de paiement
                 MonthlyIncome = 5000,
-                DebtRatio = 0.2m,
                 OtherBankLoans = new List<OtherBankLoan>(), // Pas de prêts externes
                 EmploymentHistory = new List<Job>
-                {
-                    new Job
-                    {
-                        InstitutionName = "Tech Corp",
-                        StartingDate = DateTime.Now.AddYears(-3),
-                        EndingDate = DateTime.Now,
-                        MentualSalary = 5000
-                    }
-                }
+        {
+            new Job
+            {
+                InstitutionName = "Tech Corp",
+                StartingDate = DateTime.Now.AddYears(-3),
+                EndingDate = DateTime.Now,
+                MentualSalary = 5000
+            }
+        }
             };
 
-            // Simulation du retour d'un emprunteur valide
-            _loanRepositoryMock.Setup(repo => repo.GetBorrowerBySin(It.IsAny<string>()))
-                               .ReturnsAsync((string sin) => sin == _validBorrower.Sin ? _validBorrower : null);
+            // Le DebtRatio sera automatiquement calculé ici
+            Console.WriteLine($"Debt Ratio: {_validBorrower.DebtRatio}"); // Affiche le ratio d'endettement
         }
+
 
         [TestMethod]
         public void Given_ValidLoanRequest_When_Validated_Then_ShouldBeValid()
