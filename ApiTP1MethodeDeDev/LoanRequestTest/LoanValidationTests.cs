@@ -1,5 +1,7 @@
 ﻿using ApiTP1MethodeDeDev.Dtos.Loan;
+using Domain.Bank;
 using Domain.Borrowers;
+using Domain.Emploi;
 using Domain.Loans;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,8 +24,45 @@ namespace ApiTP1MethodeDeDev.Tests
                 Address = "123 Main St",
                 Equifax_Result = 700,
                 MonthlyIncome = 5000,
-                DebtRatio = 0.2m
+                OtherBankLoans = new List<OtherBankLoan>(), // Aucun prêt externe
+                EmploymentHistory = new List<Job>
+        {
+            new Job
+            {
+                InstitutionName = "Tech Corp",
+                StartingDate = DateTime.Now.AddYears(-3),
+                EndingDate = DateTime.Now,
+                MentualSalary = 5000
+            }
+        }
             };
+
+            // Le DebtRatio sera automatiquement calculé ici
+            Console.WriteLine($"Debt Ratio: {_validBorrower.DebtRatio}"); // Affiche le ratio d'endettement
+        }
+
+        [TestMethod]
+        public void Given_ValidLoanRequest_When_Validated_Then_ShouldBeValid()
+        {
+            // Arrange
+            var loanRequest = new LoanRequest
+            {
+                Amount = 1000,
+                InterestRate = 5,
+                DurationInMonths = 12,
+                Status = StatusLoan.InProgress,
+                StartDate = DateTime.Now,
+                RemainingAmount = 1000,
+                TheBorrower = _validBorrower
+            };
+
+            // Act
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(loanRequest);
+            bool isValid = Validator.TryValidateObject(loanRequest, validationContext, validationResults, true);
+
+            // Assert
+            Assert.IsTrue(isValid, "La demande de prêt valide devrait être considérée comme valide.");
         }
 
         [TestMethod]
