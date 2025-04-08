@@ -41,6 +41,29 @@ namespace ApiTP1MethodeDeDev.Tests
             Console.WriteLine($"Debt Ratio: {_validBorrower.DebtRatio}"); // Affiche le ratio d'endettement
         }
 
+        [TestMethod]
+        public void Given_ValidLoanRequest_When_Validated_Then_ShouldBeValid()
+        {
+            // Arrange
+            var loanRequest = new LoanRequest
+            {
+                Amount = 1000,
+                InterestRate = 5,
+                DurationInMonths = 12,
+                Status = StatusLoan.InProgress,
+                StartDate = DateTime.Now,
+                RemainingAmount = 1000,
+                TheBorrower = _validBorrower
+            };
+
+            // Act
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(loanRequest);
+            bool isValid = Validator.TryValidateObject(loanRequest, validationContext, validationResults, true);
+
+            // Assert
+            Assert.IsTrue(isValid, "La demande de prêt valide devrait être considérée comme valide.");
+        }
 
         [TestMethod]
         public void Given_LoanWithoutBorrower_When_Validated_Then_ShouldBeInvalid()

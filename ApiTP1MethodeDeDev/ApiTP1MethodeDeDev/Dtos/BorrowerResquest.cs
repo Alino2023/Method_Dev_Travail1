@@ -4,6 +4,7 @@ using Domain.Bank;
 using Domain.Emploi;
 using Domain.LatePayment;
 using Infrastructure;
+using Domain.Borrowers;
 
 namespace ApiTP1MethodeDeDev.Dtos
 {
@@ -59,5 +60,10 @@ namespace ApiTP1MethodeDeDev.Dtos
         [Required]
         [Description("List of borrower's job")]
         public List<JobRequest> EmploymentHistory { get; set; } = new List<JobRequest>();
+
+        public static implicit operator BorrowerResquest(Borrower v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
