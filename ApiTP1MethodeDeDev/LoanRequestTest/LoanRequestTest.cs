@@ -9,6 +9,5 @@ namespace Tests
     public class LoanRequestTest
     {
 
-
     }
 }
