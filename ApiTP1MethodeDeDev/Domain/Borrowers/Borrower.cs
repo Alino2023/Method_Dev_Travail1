@@ -4,6 +4,7 @@ using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
 using Domain.LatePayment;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Domain.Borrowers
 {
@@ -43,7 +44,7 @@ namespace Domain.Borrowers
         public string Address { get; set; }
         
         [Description("User's bankrupty times in the last 6years")]
-        public bool Had_Bankrupty_In_Last_Six_Years { get=> BankruptyDate != default && (DateTime.Now - BankruptyDate).TotalDays <= 6 * 365; }
+        public bool Had_Bankrupty_In_Last_Six_Years { get; set; }
 
         [Required]
         [Description("User's bankrupty date if exists ")]
@@ -62,7 +63,8 @@ namespace Domain.Borrowers
 
         [Required]
         [Description("Debt Ratio")]
-        public Decimal DebtRatio { get => CalculateDebtRatio(); }
+        public decimal DebtRatio{ get; set; }
+        //public Decimal DebtRatio { get => CalculateDebtRatio(); }
 
 
         [Required]
@@ -90,9 +92,18 @@ namespace Domain.Borrowers
         //    Phone = phone;
         //    Email = email;
         //    Address = address;
-         
         //}
-
+        public void VerifyBankrupty()
+        {
+            if (BankruptyDate != default && (DateTime.Now - BankruptyDate).TotalDays <= 6 * 365)
+            {
+                Had_Bankrupty_In_Last_Six_Years = true;
+            }
+            else
+            {
+                Had_Bankrupty_In_Last_Six_Years = false;
+            }
+        }
         public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory)
         {
             Sin = sin;
@@ -107,7 +118,7 @@ namespace Domain.Borrowers
             NumberOfLatePayments = numberOfLatePayments;
             EmploymentHistory = employmentHistory;    
         }
-        public decimal CalculateDebtRatio()
+        public void CalculateDebtRatio()
         {
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
 
@@ -123,7 +134,7 @@ namespace Domain.Borrowers
 
             decimal totalLoanPayments = OtherBankLoans.Sum(loan => loan.Mensuality) + Loans.Sum(loan => loan.MonthlyPayment);
 
-            return ((totalLoanPayments / jobActuel.MentualSalary) * 100);
+             DebtRatio= ((totalLoanPayments / jobActuel.MentualSalary) * 100);
         }
 
         public string ClassifyRisk()
@@ -132,10 +143,16 @@ namespace Domain.Borrowers
             Job currentJob = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
             bool currentJobIsLessThan12Months = ((currentJob != null) && ((DateTime.Now - currentJob.StartingDate).TotalDays < 365));
 
-            return  IsHighRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "High Risk" :
-                    IsMediumRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "Medium Risk" :
-                    IsLowRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months) ? "Low Risk" :
-                    "Error in the classification of risk";
+            if (IsHighRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "High Risk";
+
+            if (IsMediumRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "Medium Risk";
+
+            if (IsLowRisk(jobsInLastTwoYears, currentJob, currentJobIsLessThan12Months))
+                return "Low Risk";
+
+            return "Error in the classification of risk";
         }
         private bool IsHighRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
@@ -156,7 +173,9 @@ namespace Domain.Borrowers
         }
         private bool IsLowRisk(int jobsInLastTwoYears, Job currentJob, bool currentJobIsLessThan12Months)
         {
-            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 && NumberOfLatePayments.Where(n => n.LatePaymentDate >= DateTime.Now.AddMonths(-6)).Count() == 0 && DebtRatio < 0.25m && jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
+            if (!Had_Bankrupty_In_Last_Six_Years && Equifax_Result > 750 &&
+                NumberOfLatePayments.Where(n => n.LatePaymentDate >= DateTime.Now.AddMonths(-6)).Count() == 0 && DebtRatio < 0.25m &&
+                jobsInLastTwoYears <= 2 && !currentJobIsLessThan12Months)
             {
                 return true;
             }
