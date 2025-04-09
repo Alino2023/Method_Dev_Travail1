@@ -42,7 +42,7 @@ namespace Tests.LoanTest
 
         // Test 1: Given a valid loan, When ValidateLoanDates is called, Then it should pass without exception
         [TestMethod]
-        public void GivenValidLoan_WhenValidateLoanDates_ThenItShouldPass()
+        public  void GivenValidLoan_WhenValidateLoanDates_ThenItShouldPass()
         {
             // Given
             var amount = 10000m;
