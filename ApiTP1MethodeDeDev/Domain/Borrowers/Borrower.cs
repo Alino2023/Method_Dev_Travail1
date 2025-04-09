@@ -13,9 +13,9 @@ namespace Domain.Borrowers
         [Key]
         [Required]
         [MinLength(9)]
-        [MaxLength(11)]
+        [MaxLength(9)]
         [Description("User's Social insurance Number")]
-        //[Example("123-456-789")]
+        //[Example("123456789")]
         public string Sin { get; set; }
 
         [Required]
