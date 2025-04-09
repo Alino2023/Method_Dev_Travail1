@@ -57,10 +57,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 return Ok(
                     new BorrowerReponse
                     {
-<<<<<<< HEAD
                         Sin = borrower.Sin,
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
                         LastName = borrower.LastName,
                         FirstName = borrower.FirstName,
                         Phone = borrower.Phone,
@@ -129,10 +126,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             if (borrower == null)
                 return NotFound();
 
-<<<<<<< HEAD
 
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
             borrower.FirstName = borrowerResquest.FirstName;
             borrower.LastName = borrowerResquest.LastName;
             borrower.Phone = borrowerResquest.Phone;

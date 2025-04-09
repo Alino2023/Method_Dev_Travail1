@@ -8,11 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BorrowerTest\**" />
+    <EmbeddedResource Remove="BorrowerTest\**" />
+    <None Remove="BorrowerTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-<<<<<<< HEAD
     <PackageReference Include="Moq" Version="4.20.72" />
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
     <PackageReference Include="MSTest" Version="3.6.4" />
   </ItemGroup>
 
@@ -23,10 +26,6 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="BorrowerTest\" />
   </ItemGroup>
 
 </Project>

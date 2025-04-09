@@ -30,12 +30,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         public decimal RemainingAmount { get; set; }
 
         [Required(ErrorMessage = "A borrower must be assigned to the loan.")]
-<<<<<<< HEAD
         public string BorrowerSin { get; set; }
-=======
-        public BorrowerResquest TheBorrower { get; set; }
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
-        public int IdLoan { get; set; }
     }
 
 }

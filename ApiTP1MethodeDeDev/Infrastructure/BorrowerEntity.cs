@@ -57,20 +57,12 @@ namespace Infrastructure
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-<<<<<<< HEAD
         public List<LatePaymentBorrower> NumberOfLatePayments { get; set; } = new List<LatePaymentBorrower>();
-=======
-        public List<LatePaymentBorrower> NumberOfLatePayments { get; set; }
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
 
 
         [Required]
         [Description("List of monthly payments from other banks")]
-<<<<<<< HEAD
         public List<OtherBankLoan> OtherBankLoans { get; set; } = new List<OtherBankLoan>();
-=======
-        public List<OtherBankLoan> OtherBankLoans { get; set; }
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
 
         [Required]
         [Description("List of borrower's job")]

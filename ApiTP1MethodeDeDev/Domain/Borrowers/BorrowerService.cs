@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using Domain.Emploi;
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
 
 namespace Domain.Borrowers
 {
@@ -38,7 +35,6 @@ namespace Domain.Borrowers
         {
             return _borrowerRepository.GetAll();
         }
-<<<<<<< HEAD
 
         //public decimal CalculateDebtRatio(Borrower borrower)
         //{
@@ -59,7 +55,5 @@ namespace Domain.Borrowers
         //    return ((totalLoanPayments / jobActuel.MentualSalary) * 100);
         //}
 
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
     }
 }

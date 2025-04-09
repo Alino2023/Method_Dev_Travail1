@@ -51,15 +51,11 @@ namespace Infrastructure
 
         public Borrower GetBySin(string sin)
         {
-<<<<<<< HEAD
             BorrowerEntity borrowerEntity = _appDbContext.Borrowers
                                             .Include(b => b.OtherBankLoans)
                                             .Include(b => b.NumberOfLatePayments)
                                             .Include(b => b.EmploymentHistory)
                                             .First(b => b.Sin == sin);
-=======
-            BorrowerEntity borrowerEntity = _appDbContext.Borrowers.First(b => b.Sin == sin);
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
 
             if (borrowerEntity == null)
             {

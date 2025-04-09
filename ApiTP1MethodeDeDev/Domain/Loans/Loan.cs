@@ -47,7 +47,7 @@ namespace Domain.Loans
         public decimal RemainingAmount { get; set; }
 
         [Required]
-        public Borrower TheBorrower { get; set; }
+        public string BorrowerSin { get; set; }
 
         [Required]
         [Description("The monthly payment amount for the loan")]
@@ -57,7 +57,7 @@ namespace Domain.Loans
         public List<decimal> Loans { get; set; } = new List<decimal>();
 
 
-        public Loan(int idLoan, decimal amount, decimal interestRate, int durationInMonths, StatusLoan status, DateTime startDate, DateTime endDate, decimal remainingAmount, string borrowerSin, Borrower theBorrower)
+        public Loan(int idLoan, decimal amount, decimal interestRate, int durationInMonths, StatusLoan status, DateTime startDate, DateTime endDate, decimal remainingAmount, string borrowerSin, string borrowersin)
         {
             ValidateLoanDates(startDate, endDate, durationInMonths);
 
@@ -69,7 +69,7 @@ namespace Domain.Loans
             StartDate = startDate;
             EndDate = StartDate.AddMonths(DurationInMonths);
             RemainingAmount = remainingAmount;
-            TheBorrower = theBorrower;
+            BorrowerSin = borrowersin;
         }
 
         public void ValidateLoanDates(DateTime startDate, DateTime endDate, int durationInMonths)

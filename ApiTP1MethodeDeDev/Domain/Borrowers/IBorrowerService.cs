@@ -13,9 +13,6 @@ namespace Domain.Borrowers
         string Add(Borrower borrower);
         void Update(Borrower borrower);
 
-<<<<<<< HEAD
         //decimal CalculateDebtRatio(Borrower borrower);
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
     }
 }

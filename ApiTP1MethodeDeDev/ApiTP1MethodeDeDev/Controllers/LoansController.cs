@@ -15,7 +15,6 @@ namespace ApiTP1MethodeDeDev.Controllers
 
     { 
         private readonly ILoanService _loanService;
-<<<<<<< HEAD
         private readonly IBorrowerService _borrowerService;
 
         public LoansController(ILoanService loanService, IBorrowerService borrowerService)
@@ -25,14 +24,6 @@ namespace ApiTP1MethodeDeDev.Controllers
         }
 
 
-=======
-
-        public LoansController(ILoanService loanService)
-        {
-            _loanService = loanService;
-        }
-
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
         [HttpGet("{idLoan}")]
         public ActionResult<LoanResponse> Get(int idLoan)
         {
@@ -43,6 +34,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 return Ok(
                     new LoanResponse
                     {
+                        IdLoan = idLoan,
                         Amount = loan.Amount,
                         InterestRate = loan.InterestRate,
                         DurationInMonths = loan.DurationInMonths,
@@ -50,15 +42,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                         StartDate = loan.StartDate,
                         EndDate = loan.StartDate.AddMonths(loan.DurationInMonths),
                         RemainingAmount = loan.RemainingAmount,
-                        TheBorrower = new BorrowerReponse()
-                        {
-                            Sin = loan.TheBorrower.Sin,
-                            FirstName = loan.TheBorrower.FirstName,
-                            LastName = loan.TheBorrower.LastName,
-                            Phone = loan.TheBorrower.Phone,
-                            Email = loan.TheBorrower.Email,
-                            Address = loan.TheBorrower.Address
-                        }
+                        BorrowerSin = loan.BorrowerSin
                     }
                 );
             }
@@ -82,15 +66,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                     StartDate = l.StartDate,
                     EndDate = l.StartDate.AddMonths(l.DurationInMonths),
                     RemainingAmount = l.RemainingAmount,
-                    TheBorrower = new BorrowerReponse()
-                    {
-                        Sin = l.TheBorrower.Sin,
-                        FirstName = l.TheBorrower.FirstName,
-                        LastName = l.TheBorrower.LastName,
-                        Phone = l.TheBorrower.Phone,
-                        Email = l.TheBorrower.Email,
-                        Address = l.TheBorrower.Address
-                    }
+                    BorrowerSin = l.BorrowerSin
                 });
         }
 
@@ -103,16 +79,13 @@ namespace ApiTP1MethodeDeDev.Controllers
             if (loanRequest.StartDate.Date != DateTime.Now.Date)
                 return BadRequest("Start date must be today's date.");
 
-<<<<<<< HEAD
             var borrower = _borrowerService.GetBySin(loanRequest.BorrowerSin);
             if (borrower == null)
                 return NotFound($"No borrower found with SIN: {loanRequest.BorrowerSin}");
 
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
             var loan = new Loan
             {
-                IdLoan = loanRequest.IdLoan,
+                
                 Amount = loanRequest.Amount,
                 InterestRate = loanRequest.InterestRate,
                 DurationInMonths = loanRequest.DurationInMonths,
@@ -120,18 +93,13 @@ namespace ApiTP1MethodeDeDev.Controllers
                 StartDate = loanRequest.StartDate,
                 EndDate = loanRequest.StartDate.AddMonths(loanRequest.DurationInMonths),
                 RemainingAmount = loanRequest.RemainingAmount,
-<<<<<<< HEAD
-                TheBorrower = borrower,
+                BorrowerSin = loanRequest.BorrowerSin,
                 MonthlyPayment = CalculateMonthlyPayment(loanRequest.Amount, loanRequest.InterestRate, loanRequest.DurationInMonths)
-=======
-                TheBorrower = new Borrower()//on doit remplacer ca par le borrower avec ses parametres 
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
             };
 
             string idLoan = _loanService.Create(loan);
             return CreatedAtAction(nameof(Get), new { idLoan = idLoan }, idLoan);
         }
-<<<<<<< HEAD
 
         private decimal CalculateMonthlyPayment(decimal amount, decimal interestRate, int duration)
         {
@@ -141,7 +109,5 @@ namespace ApiTP1MethodeDeDev.Controllers
                 : amount * monthlyRate / (1 - (decimal)Math.Pow(1 + (double)monthlyRate, -duration));
         }
 
-=======
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
     }
 }

@@ -13,9 +13,9 @@ namespace Domain.Borrowers
         [Key]
         [Required]
         [MinLength(9)]
-        [MaxLength(11)]
+        [MaxLength(9)]
         [Description("User's Social insurance Number")]
-        //[Example("123-456-789")]
+        //[Example("123456789")]
         public string Sin { get; set; }
 
         [Required]
@@ -79,15 +79,10 @@ namespace Domain.Borrowers
         public List<Loan> Loans { get; set; } = new List<Loan>();
         public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
 
-<<<<<<< HEAD
         //public IBorrowerService BorrowerService { get; set; }
 
 
         public Borrower()
-=======
-
-        public Borrower()// doit etre supprimée 
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
         {
         }
 
@@ -123,19 +118,12 @@ namespace Domain.Borrowers
             BankruptyDate = bankruptyDate;
             OtherBankLoans = otherBankLoans;
             NumberOfLatePayments = numberOfLatePayments;
-<<<<<<< HEAD
             EmploymentHistory = employmentHistory;  
             //BorrowerService = borrowerService;
         }
         public void CalculateDebtRatio()
         {
 
-=======
-            EmploymentHistory = employmentHistory;    
-        }
-        public void CalculateDebtRatio()
-        {
->>>>>>> parent of f589cb5 (delete of the existing code to searsh for the one in develop)
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
 
             if (jobActuel == null)
