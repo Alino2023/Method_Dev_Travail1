@@ -16,12 +16,6 @@ namespace Infrastructure
         {
             _context = context;
         }
-
-        public object AddLoanAsync(Loan loan)
-        {
-            throw new NotImplementedException();
-        }
-
         public string Create(Loan loan)
         {
             if (loan == null)
@@ -47,7 +41,7 @@ namespace Infrastructure
 
         public List<Loan> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Loans.ToList().Select(l => new Loan(l.IdLoan, l.Amount, l.InterestRate, l.DurationInMonths, l.Status, l.StartDate, l.EndDate, l.RemainingAmount, l.BorrowerSin, null)).ToList();
         }
 
         public Task<Borrower?> GetBorrowerBySin(string sin)
@@ -55,14 +49,29 @@ namespace Infrastructure
             throw new NotImplementedException();
         }
 
+        //public Task<Borrower?> GetBorrowerBySin(string sin)
+        //{
+        //    return _context.Borrowers.ToList().Select(b => new Borrower(b.Sin, b.FirstName, b.LastName, b.Phone, b.Email, b.Address, b.Had_Bankrupty_In_Last_Six_Years, b.BankruptyDate, b.Equifax_Result, b.NumberOfLatePayments, b.MonthlyIncome, b.DebtRatio, b.OtherBankLoans, b.EmploymentHistory)).ToList();
+        //}
+
         public Loan GetByIdLoan(int idLoan)
         {
-            throw new NotImplementedException();
+            return _context.Loans.Select
+                (l => new Loan(l.IdLoan, l.Amount, l.InterestRate, l.DurationInMonths, l.Status, l.StartDate, l.EndDate, l.RemainingAmount, l.BorrowerSin, null)).FirstOrDefault(l => l.IdLoan == idLoan);
         }
 
         public void Update(Loan loan)
         {
-            throw new NotImplementedException();
+            var existingLoan = _context.Loans.FirstOrDefault(l => l.IdLoan == loan.IdLoan);
+            if (existingLoan != null)
+            {
+                _context.Remove(existingLoan);
+                _context.Add(loan);
+            }
+            else
+            {
+                throw new Exception($"Loan with ID {loan.IdLoan} not found.");
+            }
         }
     }
 }
