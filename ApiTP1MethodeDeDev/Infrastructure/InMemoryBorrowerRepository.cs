@@ -66,7 +66,12 @@ namespace Infrastructure
             if (borrower == null)
                 throw new ArgumentNullException(nameof(borrower));
 
-            var borrowerEntity = _appDbContext.Borrowers.FirstOrDefault(b => b.Sin == borrower.Sin);
+            var borrowerEntity = _appDbContext.Borrowers
+                .Include(b => b.OtherBankLoans)
+                .Include(b => b.NumberOfLatePayments)
+                .Include(b => b.EmploymentHistory)
+                .FirstOrDefault(b => b.Sin == borrower.Sin);
+
             if (borrowerEntity == null)
                 throw new KeyNotFoundException($"Borrower with SIN {borrower.Sin} not found.");
 
@@ -77,12 +82,16 @@ namespace Infrastructure
             borrowerEntity.Address = borrower.Address;
             borrowerEntity.Equifax_Result = borrower.Equifax_Result;
             borrowerEntity.BankruptyDate = borrower.BankruptyDate;
+
             borrowerEntity.OtherBankLoans = borrower.OtherBankLoans;
+
             borrowerEntity.NumberOfLatePayments = borrower.NumberOfLatePayments;
+
             borrowerEntity.EmploymentHistory = borrower.EmploymentHistory;
 
             _appDbContext.SaveChanges();
         }
+
 
 
 
