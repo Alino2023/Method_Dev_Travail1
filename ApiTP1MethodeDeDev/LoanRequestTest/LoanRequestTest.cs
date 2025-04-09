@@ -1,182 +1,162 @@
-﻿using Domain.Borrowers;
-using Domain.Loans;
-using Moq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Domain.LatePayment;
-using Domain.Emploi;
-using Domain.Bank;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ApiTP1MethodeDeDev.Dtos.Loan;
+using Domain.Borrowers;
+using System;
+using ApiTP1MethodeDeDev.Dtos;
+using Domain.Loans;
+using System.ComponentModel.DataAnnotations;
 
-namespace ApiTP1MethodeDeDev.Tests
+namespace ApiTP1MethodeDeDev.Test
 {
     [TestClass]
     public class LoanRequestTest
     {
-        private Mock<ILoanRepository> _loanRepositoryMock;
-
-        [TestInitialize]
-        public void Setup()
-        {
-            _loanRepositoryMock = new Mock<ILoanRepository>();
-        }
-
+        // Test 1: Given a valid LoanRequest, When validated, Then it should pass without errors
         [TestMethod]
-        public void Given_ValidLoanRequest_When_Validated_Then_ShouldBeValid()
+        public void GivenValidLoanRequest_WhenValidated_ThenItShouldPass()
         {
-            // Arrange: Créer un emprunteur valide directement dans le test
-            var validBorrower = new Borrower
+            // Given
+            var borrower = new BorrowerResquest
             {
-                Sin = "123456789",
+                Sin = "123-456-789",
                 FirstName = "John",
                 LastName = "Doe",
-                Phone = "1234567890",
-                Email = "johndoe@example.com",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
                 Address = "123 Main St",
-                BankruptyDate = DateTime.Now.AddYears(-7), // Pas de faillite récente
-                Equifax_Result = 700,
-                NumberOfLatePayments = new List<LatePaymentBorrower>(), // Aucun retard de paiement
-                MonthlyIncome = 5000,
-                OtherBankLoans = new List<OtherBankLoan>(), // Pas de prêts externes
-                EmploymentHistory = new List<Job>
-            {
-                new Job
-                {
-                    InstitutionName = "Tech Corp",
-                    StartingDate = DateTime.Now.AddYears(-3),
-                    EndingDate = DateTime.Now,
-                    MentualSalary = 5000
-                }
-            }
             };
 
-            // Arrange: Créer une demande de prêt avec cet emprunteur
             var loanRequest = new LoanRequest
             {
-                Amount = 1000,
-                InterestRate = 5,
-                DurationInMonths = 12,
-                Status = StatusLoan.InProgress,
-                StartDate = DateTime.Now,
-                RemainingAmount = 1000,
-                TheBorrower = validBorrower
+                Amount = 10000m,
+                InterestRate = 5.5m,
+                DurationInMonths = 24,
+                Status = StatusLoan.Approved, // Assuming StatusLoan is an enum
+                StartDate = DateTime.Now.AddMonths(1),
+                RemainingAmount = 10000m,
+                TheBorrower = borrower,
+                IdLoan = 1
             };
 
-            // Act
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(loanRequest);
-            bool isValid = Validator.TryValidateObject(loanRequest, validationContext, validationResults, true);
+            // When
+            var validationResults = ValidateLoanRequest(loanRequest);
 
-            // Assert
-            Assert.IsTrue(isValid, "La demande de prêt valide devrait être considérée comme valide.");
+            // Then
+            Assert.AreEqual(0, validationResults.Count, "There should be no validation errors.");
         }
 
+        // Test 2: Given a loan request with an invalid amount (0), When validated, Then it should fail
         [TestMethod]
-        public void Given_LoanRequestWithNegativeAmount_When_Validated_Then_ShouldBeInvalid()
+        public void GivenLoanRequestWithInvalidAmount_WhenValidated_ThenItShouldFail()
         {
-            // Arrange: Créer un emprunteur valide
-            var validBorrower = new Borrower
+            // Given
+            var borrower = new BorrowerResquest
             {
-                Sin = "123456789",
+                Sin = "123-456-789",
                 FirstName = "John",
                 LastName = "Doe",
-                Phone = "1234567890",
-                Email = "johndoe@example.com",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
                 Address = "123 Main St",
-                BankruptyDate = DateTime.Now.AddYears(-7), // Pas de faillite récente
-                Equifax_Result = 700,
-                NumberOfLatePayments = new List<LatePaymentBorrower>(), // Aucun retard de paiement
-                MonthlyIncome = 5000,
-                OtherBankLoans = new List<OtherBankLoan>(), // Pas de prêts externes
-                EmploymentHistory = new List<Job>
-            {
-                new Job
-                {
-                    InstitutionName = "Tech Corp",
-                    StartingDate = DateTime.Now.AddYears(-3),
-                    EndingDate = DateTime.Now,
-                    MentualSalary = 5000
-                }
-            }
             };
 
-            // Arrange: Créer une demande de prêt avec un montant invalide
             var loanRequest = new LoanRequest
             {
-                Amount = -500, // Montant invalide
-                InterestRate = 5,
-                DurationInMonths = 12,
-                Status = StatusLoan.InProgress,
-                StartDate = DateTime.Now,
-                RemainingAmount = -500,
-                TheBorrower = validBorrower
+                Amount = 0m,  // Invalid amount
+                InterestRate = 5.5m,
+                DurationInMonths = 24,
+                Status = StatusLoan.Approved,
+                StartDate = DateTime.Now.AddMonths(1),
+                RemainingAmount = 10000m,
+                TheBorrower = borrower,
+                IdLoan = 1
             };
 
-            // Act
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(loanRequest);
-            bool isValid = Validator.TryValidateObject(loanRequest, validationContext, validationResults, true);
+            // When
+            var validationResults = ValidateLoanRequest(loanRequest);
 
-            // Assert
-            Assert.IsFalse(isValid, "La validation devrait échouer pour un montant négatif.");
-            Assert.IsTrue(validationResults.Exists(r => r.ErrorMessage.Contains("greater than zero")),
-                          "Le message d'erreur attendu pour un montant négatif est absent.");
+            // Then
+            Assert.IsTrue(validationResults.Count > 0, "Validation should fail for amount 0.");
+            Assert.AreEqual("Amount must be greater than zero.", validationResults[0].ErrorMessage);
         }
 
+        // Test 3: Given a loan request with a negative interest rate, When validated, Then it should fail
         [TestMethod]
-        public void Given_LoanRequestWithInvalidInterestRate_When_Validated_Then_ShouldBeInvalid()
+        public void GivenLoanRequestWithNegativeInterestRate_WhenValidated_ThenItShouldFail()
         {
-            // Arrange: Créer un emprunteur valide
-            var validBorrower = new Borrower
+            // Given
+            var borrower = new BorrowerResquest
             {
-                Sin = "123456789",
+                Sin = "123-456-789",
                 FirstName = "John",
                 LastName = "Doe",
-                Phone = "1234567890",
-                Email = "johndoe@example.com",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
                 Address = "123 Main St",
-                BankruptyDate = DateTime.Now.AddYears(-7), // Pas de faillite récente
-                Equifax_Result = 700,
-                NumberOfLatePayments = new List<LatePaymentBorrower>(), // Aucun retard de paiement
-                MonthlyIncome = 5000,
-                OtherBankLoans = new List<OtherBankLoan>(), // Pas de prêts externes
-                EmploymentHistory = new List<Job>
-            {
-                new Job
-                {
-                    InstitutionName = "Tech Corp",
-                    StartingDate = DateTime.Now.AddYears(-3),
-                    EndingDate = DateTime.Now,
-                    MentualSalary = 5000
-                }
-            }
             };
 
-            // Arrange: Créer une demande de prêt avec un taux d'intérêt invalide
             var loanRequest = new LoanRequest
             {
-                Amount = 1000,
-                InterestRate = 150, // Taux d'intérêt invalide
-                DurationInMonths = 12,
-                Status = StatusLoan.InProgress,
-                StartDate = DateTime.Now,
-                RemainingAmount = 1000,
-                TheBorrower = validBorrower
+                Amount = 10000m,
+                InterestRate = -5.5m,  // Invalid negative interest rate
+                DurationInMonths = 24,
+                Status = StatusLoan.Approved,
+                StartDate = DateTime.Now.AddMonths(1),
+                RemainingAmount = 10000m,
+                TheBorrower = borrower,
+                IdLoan = 1
             };
 
-            // Act
-            var validationResults = new List<ValidationResult>();
-            var validationContext = new ValidationContext(loanRequest);
-            bool isValid = Validator.TryValidateObject(loanRequest, validationContext, validationResults, true);
+            // When
+            var validationResults = ValidateLoanRequest(loanRequest);
 
-            // Assert
-            Assert.IsFalse(isValid, "La validation devrait échouer pour un taux d'intérêt supérieur à 100%.");
-            Assert.IsTrue(validationResults.Exists(r => r.ErrorMessage.Contains("between 0 and 100%")),
-                          "Le message d'erreur attendu pour un taux d'intérêt incorrect est absent.");
+            // Then
+            Assert.IsTrue(validationResults.Count > 0, "Validation should fail for negative interest rate.");
+            Assert.AreEqual("Interest rate must be between 0 and 100%.", validationResults[0].ErrorMessage);
+        }
+
+        // Test 4: Given a loan request with an invalid duration (less than 1 month), When validated, Then it should fail
+        [TestMethod]
+        public void GivenLoanRequestWithInvalidDuration_WhenValidated_ThenItShouldFail()
+        {
+            // Given
+            var borrower = new BorrowerResquest
+            {
+                Sin = "123-456-789",
+                FirstName = "John",
+                LastName = "Doe",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
+                Address = "123 Main St",
+            };
+
+            var loanRequest = new LoanRequest
+            {
+                Amount = 10000m,
+                InterestRate = 5.5m,
+                DurationInMonths = 0,  // Invalid duration
+                Status = StatusLoan.Approved,
+                StartDate = DateTime.Now.AddMonths(1),
+                RemainingAmount = 10000m,
+                TheBorrower = borrower,
+                IdLoan = 1
+            };
+
+            // When
+            var validationResults = ValidateLoanRequest(loanRequest);
+
+            // Then
+            Assert.IsTrue(validationResults.Count > 0, "Validation should fail for duration less than 1.");
+            Assert.AreEqual("Duration must be at least 1 month.", validationResults[0].ErrorMessage);
+        }
+
+        // Helper method to validate LoanRequest
+        private static System.Collections.Generic.List<ValidationResult> ValidateLoanRequest(LoanRequest loanRequest)
+        {
+            var validationResults = new System.Collections.Generic.List<ValidationResult>();
+            var context = new ValidationContext(loanRequest, null, null);
+            Validator.TryValidateObject(loanRequest, context, validationResults, true);
+            return validationResults;
         }
     }
-
 }
