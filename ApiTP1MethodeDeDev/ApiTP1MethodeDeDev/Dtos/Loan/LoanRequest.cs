@@ -32,6 +32,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         [Required(ErrorMessage = "A borrower must be assigned to the loan.")]
         public string BorrowerSin { get; set; }
         public int IdLoan { get; set; }
+        public BorrowerResquest TheBorrower { get; set; }
     }
 
 }
