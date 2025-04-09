@@ -1,0 +1,69 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using Domain.Bank;
+using Domain.Emploi;
+using Domain.LatePayment;
+using Infrastructure;
+using Domain.Borrowers;
+
+namespace ApiTP1MethodeDeDev.Dtos
+{
+    public class BorrowerResquest
+    {
+        [Required]
+        [MinLength(9)]
+        [MaxLength(11)]
+        [Description("User's Social insurance Number")]
+        //[Example("123-456-789")]
+        public string Sin { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        [Description("User's FirstName")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        [Description("User's LastName")]
+        public string LastName { get; set; }
+
+        [Required]
+        [MaxLength(11)]
+        [Description("User's Phone")]
+        public string Phone { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        [Description("User's Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        [Description("User's Address")]
+        public string Address { get; set; }
+
+        [Description("User's bankrupty date if exists ")]
+        public DateTime BankruptyDate { get; set; }
+
+        [Required]
+        [Description("Credit Score")]
+        public int Equifax_Result { get; set; }
+
+        [Required]
+        [Description("Number Of borrower's Late Payements")]
+        public List<LatePaymentRequest> NumberOfLatePayments { get; set; }
+
+        [Required]
+        [Description("List of monthly payments from other banks")]
+        public List<OtherBankLoanRequest> OtherBankLoans { get; set; }
+
+        [Required]
+        [Description("List of borrower's job")]
+        public List<JobRequest> EmploymentHistory { get; set; } = new List<JobRequest>();
+
+        public static implicit operator BorrowerResquest(Borrower v)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
