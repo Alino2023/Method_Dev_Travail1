@@ -3,7 +3,7 @@ using System;
 using Domain.Loans;
 using Domain.Borrowers;
 
-namespace ApiTP1MethodeDeDev.Test
+namespace Tests.LoanTest
 {
     [TestClass]
     public class LoanTest
