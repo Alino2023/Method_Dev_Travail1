@@ -51,7 +51,11 @@ namespace Infrastructure
 
         public Borrower GetBySin(string sin)
         {
-            BorrowerEntity borrowerEntity = _appDbContext.Borrowers.First(b => b.Sin == sin);
+            BorrowerEntity borrowerEntity = _appDbContext.Borrowers
+                                            .Include(b => b.OtherBankLoans)
+                                            .Include(b => b.NumberOfLatePayments)
+                                            .Include(b => b.EmploymentHistory)
+                                            .First(b => b.Sin == sin);
 
             if (borrowerEntity == null)
             {
