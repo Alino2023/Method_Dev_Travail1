@@ -6,7 +6,7 @@ using ApiTP1MethodeDeDev.Dtos;
 using Domain.Loans;
 using System.ComponentModel.DataAnnotations;
 
-namespace ApiTP1MethodeDeDev.Test
+namespace Tests.LoanRequestTest
 {
     [TestClass]
     public class LoanRequestTest
@@ -151,9 +151,9 @@ namespace ApiTP1MethodeDeDev.Test
         }
 
         // Helper method to validate LoanRequest
-        private static System.Collections.Generic.List<ValidationResult> ValidateLoanRequest(LoanRequest loanRequest)
+        private static List<ValidationResult> ValidateLoanRequest(LoanRequest loanRequest)
         {
-            var validationResults = new System.Collections.Generic.List<ValidationResult>();
+            var validationResults = new List<ValidationResult>();
             var context = new ValidationContext(loanRequest, null, null);
             Validator.TryValidateObject(loanRequest, context, validationResults, true);
             return validationResults;
