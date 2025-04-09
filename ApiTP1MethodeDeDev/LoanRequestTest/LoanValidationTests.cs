@@ -168,6 +168,5 @@ namespace ApiTP1MethodeDeDev.Tests
             Assert.IsTrue(validationResults.Exists(r => r.ErrorMessage.Contains("Remaining amount cannot exceed total amount")),
                           "Le message d'erreur attendu pour un montant restant incorrect est absent.");
         }
-
     }
 }
