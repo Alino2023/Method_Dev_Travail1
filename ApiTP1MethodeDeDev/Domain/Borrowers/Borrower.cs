@@ -79,8 +79,10 @@ namespace Domain.Borrowers
         public List<Loan> Loans { get; set; } = new List<Loan>();
         public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
 
+        //public IBorrowerService BorrowerService { get; set; }
 
-        public Borrower()// doit etre supprimée 
+
+        public Borrower()
         {
         }
 
@@ -116,10 +118,12 @@ namespace Domain.Borrowers
             BankruptyDate = bankruptyDate;
             OtherBankLoans = otherBankLoans;
             NumberOfLatePayments = numberOfLatePayments;
-            EmploymentHistory = employmentHistory;    
+            EmploymentHistory = employmentHistory;  
+            //BorrowerService = borrowerService;
         }
         public void CalculateDebtRatio()
         {
+
             Job jobActuel = EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
 
             if (jobActuel == null)

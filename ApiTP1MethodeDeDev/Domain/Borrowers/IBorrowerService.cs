@@ -13,5 +13,6 @@ namespace Domain.Borrowers
         string Add(Borrower borrower);
         void Update(Borrower borrower);
 
+        //decimal CalculateDebtRatio(Borrower borrower);
     }
 }
