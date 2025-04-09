@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Loans
+namespace Tests
 {
-    internal class LoanServicesTests
+    internal class BorrowerTests
     {
-
     }
 }
