@@ -3,7 +3,6 @@ using Domain.Borrowers;
 using Domain.Emploi;
 using Domain.LatePayment;
 using Domain.Loans;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApiTP1MethodeDeDev.Test
@@ -46,8 +45,10 @@ namespace ApiTP1MethodeDeDev.Test
                 }
             };
         }
+
+      
         [TestMethod]
-        public void TestSin_Valid()
+        public void GivenValidSin_WhenValidatingBorrower_ThenValidationSucceeds()
         {
             var borrower = new Borrower
             {
@@ -59,28 +60,19 @@ namespace ApiTP1MethodeDeDev.Test
                 Address = "123 Main St",
                 MonthlyIncome = 5000m,
                 Equifax_Result = 700,
-
             };
 
             var context = new ValidationContext(borrower, null, null);
             var results = new List<ValidationResult>();
-
             var isValid = Validator.TryValidateObject(borrower, context, results, true);
 
             Assert.IsTrue(isValid);
         }
 
-
-
-
         [TestMethod]
-        public void TestLastName_Required_MaxLength()
+        public void GivenNullOrTooLongLastName_WhenValidatingBorrower_ThenValidationFails()
         {
-            var borrower = new Borrower
-            {
-                LastName = null
-            };
-
+            var borrower = new Borrower { LastName = null };
             var validationContext = new ValidationContext(borrower, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -92,20 +84,12 @@ namespace ApiTP1MethodeDeDev.Test
             isValid = Validator.TryValidateObject(borrower, validationContext, validationResults, true);
             Assert.IsFalse(isValid);
             Assert.IsTrue(validationResults.Any(vr => vr.MemberNames.Contains("LastName")));
-
-
         }
 
-
-
         [TestMethod]
-        public void TestAddress_MaxLength()
+        public void GivenTooLongAddress_WhenValidatingBorrower_ThenValidationFails()
         {
-            var borrower = new Borrower
-            {
-                Address = new string('A', 256)
-            };
-
+            var borrower = new Borrower { Address = new string('A', 256) };
             var validationContext = new ValidationContext(borrower, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -116,13 +100,9 @@ namespace ApiTP1MethodeDeDev.Test
         }
 
         [TestMethod]
-        public void TestPhone_MaxLength()
+        public void GivenTooLongPhone_WhenValidatingBorrower_ThenValidationFails()
         {
-            var borrower = new Borrower
-            {
-                Phone = "123456789012345"
-            };
-
+            var borrower = new Borrower { Phone = "123456789012345" };
             var validationContext = new ValidationContext(borrower, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -133,13 +113,9 @@ namespace ApiTP1MethodeDeDev.Test
         }
 
         [TestMethod]
-        public void TestEmail_Required()
+        public void GivenEmptyEmail_WhenValidatingBorrower_ThenValidationFails()
         {
-            var borrower = new Borrower
-            {
-                Email = ""
-            };
-
+            var borrower = new Borrower { Email = "" };
             var validationContext = new ValidationContext(borrower, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -150,13 +126,9 @@ namespace ApiTP1MethodeDeDev.Test
         }
 
         [TestMethod]
-        public void TestFirstName_Required()
+        public void GivenNullFirstName_WhenValidatingBorrower_ThenValidationFails()
         {
-            var borrower = new Borrower
-            {
-                FirstName = null
-            };
-
+            var borrower = new Borrower { FirstName = null };
             var validationContext = new ValidationContext(borrower, null, null);
             var validationResults = new List<ValidationResult>();
 
@@ -166,8 +138,9 @@ namespace ApiTP1MethodeDeDev.Test
             Assert.IsTrue(validationResults.Any(vr => vr.MemberNames.Contains("FirstName")));
         }
 
+ 
         [TestMethod]
-        public void TestDebtRatioCalculation()
+        public void GivenValidBorrowerWithLoansAndIncome_WhenCalculatingDebtRatio_ThenCorrectDebtRatioIsReturned()
         {
             borrower.CalculateDebtRatio();
             Console.WriteLine($"Debt Ratio Calculated: {borrower.DebtRatio}");
@@ -175,7 +148,7 @@ namespace ApiTP1MethodeDeDev.Test
         }
 
         [TestMethod]
-        public void TestClassifyRiskWithEquifaxOnly()
+        public void GivenLowEquifaxAndHighDebtRatio_WhenClassifyingRisk_ThenRiskIsHigh()
         {
             borrower.Equifax_Result = 600;
             borrower.DebtRatio = 600;
@@ -183,45 +156,39 @@ namespace ApiTP1MethodeDeDev.Test
             Console.WriteLine($"Risk Classification (Equifax 600): {riskClass}");
         }
 
-
-
         [TestMethod]
-        public void TestRiskClassificationMediumRisk()
+        public void GivenMediumEquifaxAndMediumDebtRatio_WhenClassifyingRisk_ThenRiskIsMedium()
         {
             borrower.Equifax_Result = 700;
             borrower.DebtRatio = 0.35m;
             string riskClass = borrower.ClassifyRisk();
             Console.WriteLine($"Risk Classification: {riskClass}");
-            //Assert.AreEqual("Medium Risk", riskClass, "La classification du risque n'est pas correcte.");
+            // Assert.AreEqual("Medium Risk", riskClass, "La classification du risque n'est pas correcte.");
         }
 
         [TestMethod]
-        public void TestRiskClassificationLowRisk()
+        public void GivenGoodEquifaxNoBankruptcyStableJobAndNoLatePayments_WhenClassifyingRisk_ThenRiskIsLow()
         {
             Borrower borrower = new Borrower
             {
                 Had_Bankrupty_In_Last_Six_Years = false,
-                Equifax_Result = 780, // > 750
-                DebtRatio = 0.20m, // < 0.25
+                Equifax_Result = 780,
+                DebtRatio = 0.20m,
                 EmploymentHistory = new List<Job>
-        {
-            new Job { StartingDate = DateTime.Now.AddYears(-3) } // Emploi actuel depuis > 12 mois (et 1 emploi dans les 2 dernières années)
-        },
-                NumberOfLatePayments = new List<LatePaymentBorrower>() // Aucun retard de paiement
+                {
+                    new Job { StartingDate = DateTime.Now.AddYears(-3) }
+                },
+                NumberOfLatePayments = new List<LatePaymentBorrower>()
             };
 
-            // Act
             string riskClass = borrower.ClassifyRisk();
-
-            // Assert
             Console.WriteLine($"Risk Classification: {riskClass}");
             Assert.AreEqual("Low Risk", riskClass, "La classification du risque n'est pas correcte.");
         }
 
-
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void TestDebtRatioCalculationWithNoJob()
+        public void GivenNoJobInEmploymentHistory_WhenCalculatingDebtRatio_ThenThrowsInvalidOperationException()
         {
             borrower.EmploymentHistory.Clear();
             borrower.CalculateDebtRatio();

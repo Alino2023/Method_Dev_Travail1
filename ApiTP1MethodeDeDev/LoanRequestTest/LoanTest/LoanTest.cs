@@ -42,52 +42,36 @@ namespace Tests.LoanTest
 
         // Test 1: Given a valid loan, When ValidateLoanDates is called, Then it should pass without exception
         [TestMethod]
-        public  void GivenValidLoan_WhenValidateLoanDates_ThenItShouldPass()
+        public void ValidateLoanDates_ShouldNotThrow_WhenDatesAreValid()
         {
-            // Given
-            var amount = 10000m;
-            var interestRate = 5.5m;
-            var durationInMonths = 24;
-            var startDate = DateTime.Now.AddMonths(1); // Start date in the future
-            var borrower = new Borrower
-            {
-                Sin = "123-456-789",
-                FirstName = "John",
-                LastName = "Doe",
-                Phone = "123-456-7890",
-                Email = "john.doe@example.com",
-                Address = "123 Main St",
-                MonthlyIncome = 5000m,
-                Equifax_Result = 700,
-                BankruptyDate = DateTime.MinValue
-            };
-
+            // Arrange
             var loan = new Loan
             {
-                Amount = amount,
-                InterestRate = interestRate,
-                DurationInMonths = durationInMonths,
-                StartDate = startDate,
-                EndDate = startDate.AddMonths(durationInMonths),
-                RemainingAmount = amount,
-                TheBorrower = borrower,
-                MonthlyPayment = amount / durationInMonths
+                Amount = 10000m,
+                InterestRate = 5.5m,
+                DurationInMonths = 24,
+                StartDate = DateTime.Now.AddMonths(1),
+                EndDate = DateTime.Now.AddMonths(25), // 1 mois + 24 mois
+                RemainingAmount = 10000m,
+                MonthlyPayment = 10000m / 24,
+                TheBorrower = new Borrower
+                {
+                    Sin = "123-456-789",
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Phone = "123-456-7890",
+                    Email = "john.doe@example.com",
+                    Address = "123 Main St",
+                    MonthlyIncome = 5000m,
+                    Equifax_Result = 700,
+                    BankruptyDate = DateTime.MinValue
+                }
             };
 
-            // When
-            try
-            {
-                loan.ValidateLoanDates(loan.StartDate, loan.StartDate.AddMonths(loan.DurationInMonths), loan.DurationInMonths);
-            }
-            catch (ArgumentException ex)
-            {
-                Assert.Fail($"Validation failed with exception: {ex.Message}");
-            }
-
-            // Then
-            // If no exception is thrown, the test passes.
-            Assert.IsTrue(true);
+            // Act & Assert
+            loan.ValidateLoanDates(loan.StartDate, loan.EndDate, loan.DurationInMonths);
         }
+
 
 
         // Test 2: Given a loan with a start date in the future, When ValidateLoanDates is called, Then it should throw an ArgumentException

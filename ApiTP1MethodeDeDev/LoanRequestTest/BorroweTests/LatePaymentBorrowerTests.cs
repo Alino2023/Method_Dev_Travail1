@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Domain.LatePayment;
 
-namespace Tests
+namespace Tests.BorroweTests
 {
     [TestClass]
     public class LatePaymentBorrowerTests
     {
         [TestMethod]
-        public void LatePaymentBorrower_ShouldBeValid_WhenDateIsProvided()
+        public void GivenLatePaymentDate_WhenValidatingLatePaymentBorrower_ThenValidationSucceeds()
         {
             var latePayment = new LatePaymentBorrower
             {
@@ -27,11 +27,11 @@ namespace Tests
         }
 
         [TestMethod]
-        public void LatePaymentBorrower_ShouldFailValidation_IfDateIsDefault()
+        public void GivenDefaultLatePaymentDate_WhenValidatingLatePaymentBorrower_ThenValidationFails()
         {
             var latePayment = new LatePaymentBorrower
             {
-                LatePaymentDate = default 
+                LatePaymentDate = default
             };
 
             var context = new ValidationContext(latePayment, null, null);
