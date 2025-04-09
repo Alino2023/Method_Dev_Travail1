@@ -35,7 +35,6 @@ namespace Tests.LoanTest
                 StartDate = DateTime.Now.AddMonths(1), 
                 EndDate = DateTime.Now.AddMonths(25), 
                 RemainingAmount = 10000m,
-                TheBorrower = borrower,
                 MonthlyPayment = 500m
             };
         }
@@ -54,18 +53,6 @@ namespace Tests.LoanTest
                 EndDate = DateTime.Now.AddMonths(25), // 1 mois + 24 mois
                 RemainingAmount = 10000m,
                 MonthlyPayment = 10000m / 24,
-                TheBorrower = new Borrower
-                {
-                    Sin = "123-456-789",
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Phone = "123-456-7890",
-                    Email = "john.doe@example.com",
-                    Address = "123 Main St",
-                    MonthlyIncome = 5000m,
-                    Equifax_Result = 700,
-                    BankruptyDate = DateTime.MinValue
-                }
             };
 
             // Act & Assert
@@ -164,7 +151,6 @@ namespace Tests.LoanTest
                 StartDate = startDate,
                 EndDate = startDate.AddMonths(durationInMonths),
                 RemainingAmount = amount,
-                TheBorrower = borrower,
                 MonthlyPayment = amount / durationInMonths
             };
 
@@ -175,7 +161,6 @@ namespace Tests.LoanTest
             Assert.AreEqual(startDate, loan.StartDate, "The loan start date is not correctly assigned.");
             Assert.AreEqual(startDate.AddMonths(durationInMonths), loan.EndDate, "The loan end date is not correctly assigned.");
             Assert.AreEqual(amount, loan.RemainingAmount, "The loan remaining amount is not correctly assigned.");
-            Assert.AreEqual(borrower, loan.TheBorrower, "The borrower is not correctly assigned.");
             Assert.AreEqual(amount / durationInMonths, loan.MonthlyPayment, "The monthly payment is not correctly calculated.");
         }
 

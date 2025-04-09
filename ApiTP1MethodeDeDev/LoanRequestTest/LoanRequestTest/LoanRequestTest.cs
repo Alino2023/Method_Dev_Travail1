@@ -34,8 +34,6 @@ namespace Tests.LoanRequestTest
                 Status = StatusLoan.Approved, // Assuming StatusLoan is an enum
                 StartDate = DateTime.Now.AddMonths(1),
                 RemainingAmount = 10000m,
-                TheBorrower = borrower,
-                IdLoan = 1
             };
 
             // When
@@ -68,8 +66,7 @@ namespace Tests.LoanRequestTest
                 Status = StatusLoan.Approved,
                 StartDate = DateTime.Now.AddMonths(1),
                 RemainingAmount = 10000m,
-                TheBorrower = borrower,
-                IdLoan = 1
+
             };
 
             // When
@@ -103,8 +100,7 @@ namespace Tests.LoanRequestTest
                 Status = StatusLoan.Approved,
                 StartDate = DateTime.Now.AddMonths(1),
                 RemainingAmount = 10000m,
-                TheBorrower = borrower,
-                IdLoan = 1
+
             };
 
             // When
@@ -138,8 +134,7 @@ namespace Tests.LoanRequestTest
                 Status = StatusLoan.Approved,
                 StartDate = DateTime.Now.AddMonths(1),
                 RemainingAmount = 10000m,
-                TheBorrower = borrower,
-                IdLoan = 1
+
             };
 
             // When
