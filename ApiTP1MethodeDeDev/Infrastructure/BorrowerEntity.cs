@@ -57,12 +57,12 @@ namespace Infrastructure
 
         [Required]
         [Description("Number Of borrower's Late Payements")]
-        public List<LatePaymentBorrower> NumberOfLatePayments { get; set; }
+        public List<LatePaymentBorrower> NumberOfLatePayments { get; set; } = new List<LatePaymentBorrower>();
 
 
         [Required]
         [Description("List of monthly payments from other banks")]
-        public List<OtherBankLoan> OtherBankLoans { get; set; }
+        public List<OtherBankLoan> OtherBankLoans { get; set; } = new List<OtherBankLoan>();
 
         [Required]
         [Description("List of borrower's job")]
