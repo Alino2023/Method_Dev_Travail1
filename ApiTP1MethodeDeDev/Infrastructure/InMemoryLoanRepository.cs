@@ -24,7 +24,25 @@ namespace Infrastructure
 
         public string Create(Loan loan)
         {
-            throw new NotImplementedException();
+            if (loan == null)
+                throw new ArgumentNullException(nameof(loan));
+
+            var loanEntity = new LoanEntity
+            {
+                Amount = loan.Amount,
+                InterestRate = loan.InterestRate,
+                DurationInMonths = loan.DurationInMonths,
+                Status = loan.Status,
+                StartDate = loan.StartDate,
+                EndDate = loan.EndDate,
+                RemainingAmount = loan.RemainingAmount,
+                BorrowerSin = loan.TheBorrower.Sin
+            };
+
+            _context.Loans.Add(loanEntity);
+            _context.SaveChanges();
+
+            return loanEntity.IdLoan.ToString();
         }
 
         public List<Loan> GetAll()
