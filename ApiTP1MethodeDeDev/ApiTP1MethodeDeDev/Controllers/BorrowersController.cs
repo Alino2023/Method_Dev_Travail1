@@ -57,6 +57,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 return Ok(
                     new BorrowerReponse
                     {
+                        Sin = borrower.Sin,
                         LastName = borrower.LastName,
                         FirstName = borrower.FirstName,
                         Phone = borrower.Phone,
@@ -124,6 +125,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             var borrower = _borrowerService.GetBySin(sin);
             if (borrower == null)
                 return NotFound();
+
 
             borrower.FirstName = borrowerResquest.FirstName;
             borrower.LastName = borrowerResquest.LastName;

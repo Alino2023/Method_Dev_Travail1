@@ -3,7 +3,7 @@ using System;
 using Domain.Loans;
 using Domain.Borrowers;
 
-namespace ApiTP1MethodeDeDev.Test
+namespace Tests.LoanTest
 {
     [TestClass]
     public class LoanTest
@@ -42,22 +42,53 @@ namespace ApiTP1MethodeDeDev.Test
 
         // Test 1: Given a valid loan, When ValidateLoanDates is called, Then it should pass without exception
         [TestMethod]
-        public void GivenValidLoan_WhenValidateLoanDates_ThenItShouldPass()
+        public  void GivenValidLoan_WhenValidateLoanDates_ThenItShouldPass()
         {
             // Given
-            var validLoan = new Loan
+            var amount = 10000m;
+            var interestRate = 5.5m;
+            var durationInMonths = 24;
+            var startDate = DateTime.Now.AddMonths(1); // Start date in the future
+            var borrower = new Borrower
             {
-                StartDate = DateTime.Now.AddMonths(1),  
-                EndDate = DateTime.Now.AddMonths(25),  
-                DurationInMonths = 24
+                Sin = "123-456-789",
+                FirstName = "John",
+                LastName = "Doe",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
+                Address = "123 Main St",
+                MonthlyIncome = 5000m,
+                Equifax_Result = 700,
+                BankruptyDate = DateTime.MinValue
+            };
+
+            var loan = new Loan
+            {
+                Amount = amount,
+                InterestRate = interestRate,
+                DurationInMonths = durationInMonths,
+                StartDate = startDate,
+                EndDate = startDate.AddMonths(durationInMonths),
+                RemainingAmount = amount,
+                TheBorrower = borrower,
+                MonthlyPayment = amount / durationInMonths
             };
 
             // When
-            validLoan.ValidateLoanDates(validLoan.StartDate, validLoan.EndDate, validLoan.DurationInMonths);
+            try
+            {
+                loan.ValidateLoanDates(loan.StartDate, loan.StartDate.AddMonths(loan.DurationInMonths), loan.DurationInMonths);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.Fail($"Validation failed with exception: {ex.Message}");
+            }
 
             // Then
+            // If no exception is thrown, the test passes.
             Assert.IsTrue(true);
         }
+
 
         // Test 2: Given a loan with a start date in the future, When ValidateLoanDates is called, Then it should throw an ArgumentException
         [TestMethod]
@@ -118,5 +149,51 @@ namespace ApiTP1MethodeDeDev.Test
             // Then
             // Expected exception: ArgumentException
         }
+
+        [TestMethod]
+        public void GivenValidLoanDetails_WhenLoanIsCreated_ThenLoanPropertiesShouldBeCorrectlyAssigned()
+        {
+            // Given
+            var amount = 10000m;
+            var interestRate = 5.5m;
+            var durationInMonths = 24;
+            var startDate = DateTime.Now.AddMonths(1); // Start date in the future
+            var borrower = new Borrower
+            {
+                Sin = "123-456-789",
+                FirstName = "John",
+                LastName = "Doe",
+                Phone = "123-456-7890",
+                Email = "john.doe@example.com",
+                Address = "123 Main St",
+                MonthlyIncome = 5000m,
+                Equifax_Result = 700,
+                BankruptyDate = DateTime.MinValue
+            };
+
+            // When
+            var loan = new Loan
+            {
+                Amount = amount,
+                InterestRate = interestRate,
+                DurationInMonths = durationInMonths,
+                StartDate = startDate,
+                EndDate = startDate.AddMonths(durationInMonths),
+                RemainingAmount = amount,
+                TheBorrower = borrower,
+                MonthlyPayment = amount / durationInMonths
+            };
+
+            // Then
+            Assert.AreEqual(amount, loan.Amount, "The loan amount is not correctly assigned.");
+            Assert.AreEqual(interestRate, loan.InterestRate, "The interest rate is not correctly assigned.");
+            Assert.AreEqual(durationInMonths, loan.DurationInMonths, "The loan duration is not correctly assigned.");
+            Assert.AreEqual(startDate, loan.StartDate, "The loan start date is not correctly assigned.");
+            Assert.AreEqual(startDate.AddMonths(durationInMonths), loan.EndDate, "The loan end date is not correctly assigned.");
+            Assert.AreEqual(amount, loan.RemainingAmount, "The loan remaining amount is not correctly assigned.");
+            Assert.AreEqual(borrower, loan.TheBorrower, "The borrower is not correctly assigned.");
+            Assert.AreEqual(amount / durationInMonths, loan.MonthlyPayment, "The monthly payment is not correctly calculated.");
+        }
+
     }
 }
