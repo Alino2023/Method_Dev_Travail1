@@ -34,6 +34,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 return Ok(
                     new LoanResponse
                     {
+                        IdLoan = idLoan,
                         Amount = loan.Amount,
                         InterestRate = loan.InterestRate,
                         DurationInMonths = loan.DurationInMonths,
@@ -57,6 +58,7 @@ namespace ApiTP1MethodeDeDev.Controllers
             return _loanService.GetAll().Select(l =>
                 new LoanResponse
                 {
+                    IdLoan = l.IdLoan,
                     Amount = l.Amount,
                     InterestRate = l.InterestRate,
                     DurationInMonths = l.DurationInMonths,
@@ -83,6 +85,7 @@ namespace ApiTP1MethodeDeDev.Controllers
 
             var loan = new Loan
             {
+                
                 Amount = loanRequest.Amount,
                 InterestRate = loanRequest.InterestRate,
                 DurationInMonths = loanRequest.DurationInMonths,

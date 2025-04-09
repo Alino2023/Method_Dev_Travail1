@@ -43,14 +43,15 @@ namespace Infrastructure
             modelBuilder.Entity<LoanEntity>().HasKey(l => l.IdLoan);
 
             modelBuilder.Entity<LoanEntity>(l => l.HasData(new LoanEntity 
-            { IdLoan = 1, 
+            {   
+                IdLoan = 1, 
                 Amount = 20000m, 
                 InterestRate = 9.20m,
                  DurationInMonths = 24, 
                 StartDate = DateTime.Now,
                 RemainingAmount = 20000m,
                 BorrowerSin = "987654321",
-                //TheBorrower = null!
+                
             }));
 
             //modelBuilder.Entity<LoanEntity>()
