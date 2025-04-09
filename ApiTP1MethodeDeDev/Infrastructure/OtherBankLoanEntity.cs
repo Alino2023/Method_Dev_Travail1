@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Bank
+namespace Infrastructure
 {
-    public class OtherBankLoan
+    public class OtherBankLoanEntity
     {
         [Key]
         [Required]
@@ -22,7 +22,7 @@ namespace Domain.Bank
 
         [Required]
         [Description("Loan Remaining Balance")]
-        public decimal RemainingBalance {  get; set; }
+        public decimal RemainingBalance { get; set; }
         [Required]
         [Description("Reason for the loan ")]
         public string Reason { get; set; }

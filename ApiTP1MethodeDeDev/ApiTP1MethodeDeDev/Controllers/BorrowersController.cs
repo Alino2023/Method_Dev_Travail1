@@ -9,6 +9,8 @@ using Domain.Borrowers;
 using Infrastructure;
 using ApiTP1MethodeDeDev.Dtos;
 using Domain.LatePayment;
+using Domain.Bank;
+using Domain.Emploi;
 
 namespace ApiTP1MethodeDeDev.Controllers
 {
@@ -30,11 +32,18 @@ namespace ApiTP1MethodeDeDev.Controllers
             return _borrowerService.GetAll().Select(b =>
                 new BorrowerReponse
                 {
+                    Sin = b.Sin,
                     FirstName = b.FirstName,
                     LastName = b.LastName,
                     Phone = b.Phone,
                     Email = b.Email,
-                    Address = b.Address
+                    Address = b.Address,
+                    Equifax_Result = b.Equifax_Result,
+                    BankruptyDate = b.BankruptyDate,
+                    OtherBankLoans = b.OtherBankLoans,
+                    NumberOfLatePayments = b.NumberOfLatePayments,
+                    EmploymentHistory = b.EmploymentHistory
+
                 });
         }
 
@@ -52,7 +61,12 @@ namespace ApiTP1MethodeDeDev.Controllers
                         FirstName = borrower.FirstName,
                         Phone = borrower.Phone,
                         Email = borrower.Email,
-                        Address = borrower.Address
+                        Address = borrower.Address,
+                        Equifax_Result = borrower.Equifax_Result,
+                        BankruptyDate = borrower.BankruptyDate,
+                        OtherBankLoans = borrower.OtherBankLoans,
+                        NumberOfLatePayments = borrower.NumberOfLatePayments,
+                        EmploymentHistory = borrower.EmploymentHistory
                     }
                 );
             }
@@ -78,9 +92,26 @@ namespace ApiTP1MethodeDeDev.Controllers
                 Address = borrowerResquest.Address,
                 Equifax_Result = borrowerResquest.Equifax_Result,
                 BankruptyDate = borrowerResquest.BankruptyDate,
-                OtherBankLoans = borrowerResquest.OtherBankLoans,
-                NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower{ LatePaymentDate = date }).ToList(),
-                EmploymentHistory = borrowerResquest.EmploymentHistory
+                OtherBankLoans = borrowerResquest.OtherBankLoans.Select(otherBank => new OtherBankLoan
+                {
+                    BankName = otherBank.BankName,
+                    Mensuality = otherBank.Mensuality,
+                    RemainingBalance = otherBank.RemainingBalance,
+                    Reason = otherBank.Reason
+                }).ToList(),
+
+                NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower
+                {
+                    LatePaymentDate = date.LatePaymentDate
+                }).ToList(),
+
+                EmploymentHistory = borrowerResquest.EmploymentHistory.Select(employHistory => new Job
+                {
+                    InstitutionName = employHistory.InstitutionName,
+                    StartingDate = employHistory.StartingDate,
+                    EndingDate = employHistory.EndingDate,
+                    MentualSalary = employHistory.MentualSalary
+                }).ToList()
             };
 
             string borrowerSin = _borrowerService.Add(borrower);
@@ -99,12 +130,33 @@ namespace ApiTP1MethodeDeDev.Controllers
             borrower.Phone = borrowerResquest.Phone;
             borrower.Email = borrowerResquest.Email;
             borrower.Address = borrowerResquest.Address;
+            borrower.Equifax_Result = borrowerResquest.Equifax_Result;
+            borrower.BankruptyDate = borrowerResquest.BankruptyDate;
+
+            borrower.OtherBankLoans = borrowerResquest.OtherBankLoans.Select(otherBank => new OtherBankLoan
+            {
+                BankName = otherBank.BankName,
+                Mensuality = otherBank.Mensuality,
+                RemainingBalance = otherBank.RemainingBalance,
+                Reason = otherBank.Reason
+            }).ToList();
+
+            borrower.NumberOfLatePayments = borrowerResquest.NumberOfLatePayments.Select(date => new LatePaymentBorrower
+            {
+                LatePaymentDate = date.LatePaymentDate
+            }).ToList();
+
+            borrower.EmploymentHistory = borrowerResquest.EmploymentHistory.Select(job => new Job
+            {
+                InstitutionName = job.InstitutionName,
+                StartingDate = job.StartingDate,
+                EndingDate = job.EndingDate,
+                MentualSalary = job.MentualSalary
+            }).ToList();
 
             _borrowerService.Update(borrower);
             return NoContent();
         }
-
-
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Domain.Emploi
 {
     public class Job
     {
+        [Key]
         public int JobId {  get; set; } 
         public string InstitutionName {  get; set; }
         public DateTime StartingDate { get; set; }

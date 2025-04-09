@@ -47,10 +47,7 @@ namespace Infrastructure
         public decimal RemainingAmount { get; set; }
 
         [Required]
-        public string BorrowerSin { get; set; }
-
-        /*[Required]
-        public BorrowerService TheBorrower { get; set; }*/
+        public required string BorrowerSin { get; set; }
       
     }
 }
