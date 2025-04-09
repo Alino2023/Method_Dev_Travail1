@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Domain.Borrowers;
 using Domain.Loans;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -21,16 +20,20 @@ namespace Infrastructure
             if (loan == null)
                 throw new ArgumentNullException(nameof(loan));
 
+            // Validation des dates
+            loan.ValidateLoanDates(loan.StartDate, loan.EndDate, loan.DurationInMonths);
+
             var loanEntity = new LoanEntity
             {
+                IdLoan = loan.IdLoan,
                 Amount = loan.Amount,
                 InterestRate = loan.InterestRate,
                 DurationInMonths = loan.DurationInMonths,
                 Status = loan.Status,
                 StartDate = loan.StartDate,
-                EndDate = loan.EndDate,
+                EndDate = loan.StartDate.AddMonths(loan.DurationInMonths),
                 RemainingAmount = loan.RemainingAmount,
-                BorrowerSin = loan.TheBorrower.Sin
+                BorrowerSin = loan.BorrowerSin
             };
 
             _context.Loans.Add(loanEntity);
@@ -39,14 +42,50 @@ namespace Infrastructure
             return loanEntity.IdLoan.ToString();
         }
 
-        public List<Loan> GetAll()
+        public async Task<string> AddLoanAsync(Loan loan)
         {
-            return _context.Loans.ToList().Select(l => new Loan(l.IdLoan, l.Amount, l.InterestRate, l.DurationInMonths, l.Status, l.StartDate, l.EndDate, l.RemainingAmount, l.BorrowerSin, null)).ToList();
+            if (loan == null)
+                throw new ArgumentNullException(nameof(loan));
+
+            loan.ValidateLoanDates(loan.StartDate, loan.EndDate, loan.DurationInMonths);
+
+            var loanEntity = new LoanEntity
+            {
+                IdLoan = loan.IdLoan,
+                Amount = loan.Amount,
+                InterestRate = loan.InterestRate,
+                DurationInMonths = loan.DurationInMonths,
+                Status = loan.Status,
+                StartDate = loan.StartDate,
+                EndDate = loan.StartDate.AddMonths(loan.DurationInMonths),
+                RemainingAmount = loan.RemainingAmount,
+                BorrowerSin = loan.BorrowerSin
+            };
+
+            _context.Loans.Add(loanEntity);
+            await _context.SaveChangesAsync();
+
+            return loanEntity.IdLoan.ToString();
         }
 
-        public Task<Borrower?> GetBorrowerBySin(string sin)
+        public List<Loan> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Loans
+                .AsNoTracking()
+                .Select(l => new Loan
+                {
+                    IdLoan = l.IdLoan,
+                    Amount = l.Amount,
+                    InterestRate = l.InterestRate,
+                    DurationInMonths = l.DurationInMonths,
+                    Status = l.Status,
+                    StartDate = l.StartDate,
+                    EndDate = l.EndDate,
+                    RemainingAmount = l.RemainingAmount,
+                    BorrowerSin = l.BorrowerSin,
+                    MonthlyPayment = CalculateMonthlyPayment(l.Amount, l.InterestRate, l.DurationInMonths)
+                })
+                .ToList();
         }
 
         //public Task<Borrower?> GetBorrowerBySin(string sin)
@@ -56,22 +95,39 @@ namespace Infrastructure
 
         public Loan GetByIdLoan(int idLoan)
         {
-            return _context.Loans.Select
-                (l => new Loan(l.IdLoan, l.Amount, l.InterestRate, l.DurationInMonths, l.Status, l.StartDate, l.EndDate, l.RemainingAmount, l.BorrowerSin, null)).FirstOrDefault(l => l.IdLoan == idLoan);
+            var l = _context.Loans
+                .AsNoTracking()
+                .FirstOrDefault(x => x.IdLoan == idLoan);
+
+            if (l == null)
+                throw new KeyNotFoundException($"Loan with ID {idLoan} not found.");
+
+            return new Loan
+            {
+                IdLoan = l.IdLoan,
+                Amount = l.Amount,
+                InterestRate = l.InterestRate,
+                DurationInMonths = l.DurationInMonths,
+                Status = l.Status,
+                StartDate = l.StartDate,
+                EndDate = l.EndDate,
+                RemainingAmount = l.RemainingAmount,
+                BorrowerSin = l.BorrowerSin,
+                MonthlyPayment = CalculateMonthlyPayment(l.Amount, l.InterestRate, l.DurationInMonths)
+            };
         }
 
-        public void Update(Loan loan)
+        private decimal CalculateMonthlyPayment(decimal amount, decimal rate, int duration)
         {
-            var existingLoan = _context.Loans.FirstOrDefault(l => l.IdLoan == loan.IdLoan);
-            if (existingLoan != null)
-            {
-                _context.Remove(existingLoan);
-                _context.Add(loan);
-            }
-            else
-            {
-                throw new Exception($"Loan with ID {loan.IdLoan} not found.");
-            }
+            if (rate == 0)
+                return Math.Round(amount / duration, 2);
+
+            var monthlyRate = rate / 12 / 100;
+            var denominator = (decimal)(Math.Pow(1 + (double)monthlyRate, duration) - 1);
+            if (denominator == 0) return amount;
+
+            var monthlyPayment = amount * monthlyRate * (decimal)Math.Pow(1 + (double)monthlyRate, duration) / denominator;
+            return Math.Round(monthlyPayment, 2);
         }
     }
 }
