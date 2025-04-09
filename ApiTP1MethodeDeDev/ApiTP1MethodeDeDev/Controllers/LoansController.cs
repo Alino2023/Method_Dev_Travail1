@@ -41,15 +41,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                         StartDate = loan.StartDate,
                         EndDate = loan.StartDate.AddMonths(loan.DurationInMonths),
                         RemainingAmount = loan.RemainingAmount,
-                        TheBorrower = new BorrowerReponse()
-                        {
-                            Sin = loan.TheBorrower.Sin,
-                            FirstName = loan.TheBorrower.FirstName,
-                            LastName = loan.TheBorrower.LastName,
-                            Phone = loan.TheBorrower.Phone,
-                            Email = loan.TheBorrower.Email,
-                            Address = loan.TheBorrower.Address
-                        }
+                        BorrowerSin = loan.BorrowerSin
                     }
                 );
             }
@@ -65,7 +57,6 @@ namespace ApiTP1MethodeDeDev.Controllers
             return _loanService.GetAll().Select(l =>
                 new LoanResponse
                 {
-                    IdLoan = l.IdLoan,
                     Amount = l.Amount,
                     InterestRate = l.InterestRate,
                     DurationInMonths = l.DurationInMonths,
@@ -73,15 +64,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                     StartDate = l.StartDate,
                     EndDate = l.StartDate.AddMonths(l.DurationInMonths),
                     RemainingAmount = l.RemainingAmount,
-                    TheBorrower = new BorrowerReponse()
-                    {
-                        Sin = l.TheBorrower.Sin,
-                        FirstName = l.TheBorrower.FirstName,
-                        LastName = l.TheBorrower.LastName,
-                        Phone = l.TheBorrower.Phone,
-                        Email = l.TheBorrower.Email,
-                        Address = l.TheBorrower.Address
-                    }
+                    BorrowerSin = l.BorrowerSin
                 });
         }
 
@@ -100,7 +83,6 @@ namespace ApiTP1MethodeDeDev.Controllers
 
             var loan = new Loan
             {
-                IdLoan = loanRequest.IdLoan,
                 Amount = loanRequest.Amount,
                 InterestRate = loanRequest.InterestRate,
                 DurationInMonths = loanRequest.DurationInMonths,
@@ -108,7 +90,7 @@ namespace ApiTP1MethodeDeDev.Controllers
                 StartDate = loanRequest.StartDate,
                 EndDate = loanRequest.StartDate.AddMonths(loanRequest.DurationInMonths),
                 RemainingAmount = loanRequest.RemainingAmount,
-                TheBorrower = borrower,
+                BorrowerSin = loanRequest.BorrowerSin,
                 MonthlyPayment = CalculateMonthlyPayment(loanRequest.Amount, loanRequest.InterestRate, loanRequest.DurationInMonths)
             };
 

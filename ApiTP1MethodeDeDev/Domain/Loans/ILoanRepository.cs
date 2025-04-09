@@ -11,10 +11,7 @@ namespace Domain.Loans
     {
         List<Loan> GetAll();
         Loan GetByIdLoan(int idLoan);
-        string Create(Loan loan);
-        void Update(Loan loan);
-        Task<Borrower?> GetBorrowerBySin(string sin);
-       
+        string Create(Loan loan);       
 
     }
 }

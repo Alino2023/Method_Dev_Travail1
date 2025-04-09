@@ -8,7 +8,6 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
 {
     public class LoanResponse
     {
-        public int IdLoan { get; set; }
         public decimal Amount { get; set; }
         public decimal InterestRate { get; set; }
         public int DurationInMonths { get; set; }
@@ -28,7 +27,7 @@ namespace ApiTP1MethodeDeDev.Dtos.Loan
         }
 
         public decimal RemainingAmount { get; set; }
-        public BorrowerReponse TheBorrower { get; set; }
+        public string BorrowerSin { get; set; }
     }
 
 }

@@ -12,8 +12,5 @@ namespace Domain.Loans
         public IList<Loan> GetAll();
         Loan GetByIdLoan(int idLoan);
         string Create(Loan loan);
-        void Update(Loan loan);
-        Task<Borrower?> GetBorrowerBySin(string sin);
-
     }
 }

@@ -43,15 +43,7 @@ namespace Domain.Loans
             return _loanRepository.GetAll();
         }
 
-        public async Task<Borrower?> GetBorrowerBySin(string sin)
-        {
-            if (string.IsNullOrWhiteSpace(sin))
-            {
-                throw new ArgumentException("SIN cannot be null or empty.", nameof(sin));
-            }
-
-            return await _loanRepository.GetBorrowerBySin(sin);
-        }
+        
 
         public Loan GetByIdLoan(int idLoan)
         {
@@ -64,13 +56,6 @@ namespace Domain.Loans
             return loan;
         }
 
-        public void Update(Loan loan)
-        {
-            if (loan == null)
-            {
-                throw new ArgumentNullException(nameof(loan), "The loan cannot be void.");
-            }
-            _loanRepository.Update(loan);
-        }
+
     }
 }
