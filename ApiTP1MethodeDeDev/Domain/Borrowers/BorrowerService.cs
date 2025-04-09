@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Emploi;
 
 namespace Domain.Borrowers
 {
@@ -34,5 +35,25 @@ namespace Domain.Borrowers
         {
             return _borrowerRepository.GetAll();
         }
+
+        //public decimal CalculateDebtRatio(Borrower borrower)
+        //{
+        //    Job jobActuel = borrower.EmploymentHistory.OrderByDescending(job => job.StartingDate).FirstOrDefault();
+
+        //    if (jobActuel == null)
+        //    {
+        //        throw new InvalidOperationException("No employment found in the history to calculate the debt ratio.");
+        //    }
+
+        //    if (jobActuel.MentualSalary <= 0)
+        //    {
+        //        throw new InvalidOperationException("The current job's salary must be greater than zero to calculate the debt ratio.");
+        //    }
+
+        //    decimal totalLoanPayments = borrower.OtherBankLoans.Sum(loan => loan.Mensuality) + borrower.Loans.Sum(loan => loan.MonthlyPayment);
+
+        //    return ((totalLoanPayments / jobActuel.MentualSalary) * 100);
+        //}
+
     }
 }
