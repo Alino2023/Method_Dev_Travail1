@@ -72,7 +72,7 @@ namespace Domain.Loans
             TheBorrower = theBorrower;
         }
 
-        private void ValidateLoanDates(DateTime startDate, DateTime endDate, int durationInMonths)
+        public void ValidateLoanDates(DateTime startDate, DateTime endDate, int durationInMonths)
         {
             if (startDate > DateTime.Now)
             {
