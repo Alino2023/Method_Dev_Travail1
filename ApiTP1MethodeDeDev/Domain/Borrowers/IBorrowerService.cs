@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Borrowers
 {
-    public interface IBorrowerService
+    public interface IDocumentService
     {
         public IList<Borrower> GetAll();
         Borrower GetBySin(string sin);
