@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infrastructure.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Domain.Documents
 {
-    internal class IDocumentRepository
+    public interface IDocumentRepository
     {
+        //Task SaveAsync(DocumentEntity document);
+        //Task<IEnumerable<DocumentEntity>> GetDocumentsByBorrowerAsync(string borrowerSin);
+        //Task<DocumentEntity?> GetByIdAsync(Guid id);
     }
 }
