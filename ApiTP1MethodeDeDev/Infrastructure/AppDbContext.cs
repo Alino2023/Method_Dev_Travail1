@@ -23,6 +23,7 @@ namespace Infrastructure
         public DbSet<JobEntity> Jobs { get; set; } 
         public DbSet<LatePaymentBorrowerEntity> LatePayments { get; set; } 
         public DbSet<OtherBankLoanEntity> OtherBankLoans { get; set; } 
+        public DbSet<ActifEntity> LesActifs { get; set; }
 
 
 
