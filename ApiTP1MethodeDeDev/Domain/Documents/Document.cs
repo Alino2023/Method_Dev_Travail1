@@ -31,7 +31,7 @@ namespace Domain.Documents
         [Required]
         public string BorrowerSin { get; set; }
 
-        public Borrower Borrower { get; set; }
+        public Borrowers.Borrower Borrower { get; set; }
     }
 }
 
