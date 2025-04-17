@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Borrowers;
-using Infrastructure;
 using ApiTP1MethodeDeDev.Dtos;
 using Domain.LatePayment;
 using Domain.Bank;
@@ -112,7 +105,8 @@ namespace ApiTP1MethodeDeDev.Controllers
                     StartingDate = employHistory.StartingDate,
                     EndingDate = employHistory.EndingDate,
                     MentualSalary = employHistory.MentualSalary
-                }).ToList()
+                }).ToList(),
+
             };
 
             string borrowerSin = _borrowerService.Add(borrower);
