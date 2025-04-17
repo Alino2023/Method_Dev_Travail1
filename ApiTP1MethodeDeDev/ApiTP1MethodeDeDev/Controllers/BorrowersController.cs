@@ -19,9 +19,9 @@ namespace ApiTP1MethodeDeDev.Controllers
     public class BorrowersController : ControllerBase
     {
 
-        private readonly IBorrowerService _borrowerService;
+        private readonly IDocumentService _borrowerService;
 
-        public BorrowersController(IBorrowerService borrowerService)
+        public BorrowersController(IDocumentService borrowerService)
         {
             _borrowerService = borrowerService;
         }
