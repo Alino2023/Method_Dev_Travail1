@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Infrastructure;
 using Domain.Borrowers;
 using Domain.Loans;
+using Infrastructure.Documents;
+using Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +16,12 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseInMemoryDatabase("AppDb"));
 
-builder.Services.AddScoped<IBorrowerService, BorrowerService>();
+builder.Services.AddScoped<IDocumentService, BorrowerService>();
 builder.Services.AddScoped<IBorrowerRepository, InMemoryBorrowerRepository>();
 
 builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<ILoanRepository, InMemoryLoanRepository>();
+//builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 
 
