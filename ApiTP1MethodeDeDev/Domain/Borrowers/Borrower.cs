@@ -142,7 +142,8 @@ namespace Domain.Borrowers
              DebtRatio= ((totalLoanPayments / jobActuel.MentualSalary) * 100);
         }
 
-        public List<ProofDocument> ProofDocuments { get; set; } = new List<ProofDocument>();
+        
+
         public string ClassifyRisk()
         {
             int jobsInLastTwoYears = EmploymentHistory.Count(job => job.StartingDate >= DateTime.Now.AddYears(-2));
@@ -188,5 +189,7 @@ namespace Domain.Borrowers
             return false;
         }
 
+        public List<ProofDocument> ProofDocuments { get; set; } = new List<ProofDocument>();
+      //  public List<ProofDocument> Documents { get; set; } = new List<ProofDocument>();
     }
 }
