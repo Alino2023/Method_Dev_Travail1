@@ -15,9 +15,9 @@ namespace ApiTP1MethodeDeDev.Controllers
 
     { 
         private readonly ILoanService _loanService;
-        private readonly IBorrowerService _borrowerService;
+        private readonly IDocumentService _borrowerService;
 
-        public LoansController(ILoanService loanService, IBorrowerService borrowerService)
+        public LoansController(ILoanService loanService, IDocumentService borrowerService)
         {
             _loanService = loanService;
             _borrowerService = borrowerService;
