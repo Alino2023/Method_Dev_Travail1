@@ -25,6 +25,7 @@ namespace Infrastructure
         public DbSet<LatePaymentBorrowerEntity> LatePayments { get; set; } 
         public DbSet<OtherBankLoanEntity> OtherBankLoans { get; set; }
         public DbSet<ProofDocument> ProofDocuments { get; set; }
+        public DbSet<DocumentEntity> Documents { get; set; }
 
 
 
