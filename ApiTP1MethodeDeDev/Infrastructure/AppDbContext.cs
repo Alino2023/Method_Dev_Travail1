@@ -9,6 +9,7 @@ using Domain.Documents;
 using Domain.Emploi;
 using Domain.LatePayment;
 using Domain.Loans;
+using Infrastructure.Documents;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
