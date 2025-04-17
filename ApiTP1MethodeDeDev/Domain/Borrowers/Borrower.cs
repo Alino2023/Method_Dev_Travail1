@@ -190,7 +190,7 @@ namespace Domain.Borrowers
         }
 
         public List<ProofDocument> ProofDocuments { get; set; } = new List<ProofDocument>();
-        public List<DocumentEntity> Documents { get; set; } = new();
+        //public List<DocumentEntity> Documents { get; set; } = new();
 
     }
 }
