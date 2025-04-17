@@ -21,6 +21,8 @@ builder.Services.AddScoped<ILoanService, LoanService>();
 builder.Services.AddScoped<ILoanRepository, InMemoryLoanRepository>();
 
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +47,12 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseStaticFiles(); // Pour servir les fichiers uploadés (pdf/docx)
+
 app.MapControllers();
+
+// Appeller la fonction qui permet de s'assurer que wwwroot/uploads/ existe
+Uploading.UploadsDirectoryExists();
+
 
 app.Run();
