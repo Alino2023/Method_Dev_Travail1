@@ -5,6 +5,7 @@ using Domain.Emploi;
 using Domain.Loans;
 using Domain.LatePayment;
 using System.Reflection.Metadata.Ecma335;
+using Domain.Documents;
 
 namespace Domain.Borrowers
 {
@@ -141,6 +142,7 @@ namespace Domain.Borrowers
              DebtRatio= ((totalLoanPayments / jobActuel.MentualSalary) * 100);
         }
 
+        public List<ProofDocument> ProofDocuments { get; set; } = new List<ProofDocument>();
         public string ClassifyRisk()
         {
             int jobsInLastTwoYears = EmploymentHistory.Count(job => job.StartingDate >= DateTime.Now.AddYears(-2));
