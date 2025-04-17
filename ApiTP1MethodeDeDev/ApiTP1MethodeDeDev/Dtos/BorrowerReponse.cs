@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Domain.Bank;
 using Domain.Emploi;
 using Domain.LatePayment;
+using Domain.Actifs;
 
 namespace ApiTP1MethodeDeDev.Dtos
 {
@@ -58,6 +59,8 @@ namespace ApiTP1MethodeDeDev.Dtos
         [Required]
         [Description("List of borrower's job")]
         public List<Job> EmploymentHistory { get; set; } = new List<Job>();
+        public List<Actif> Actifs { get; set; } = new List<Actif>();
+
 
     }
 }
