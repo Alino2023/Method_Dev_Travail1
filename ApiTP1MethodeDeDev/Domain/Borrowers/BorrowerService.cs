@@ -7,7 +7,7 @@ using Domain.Emploi;
 
 namespace Domain.Borrowers
 {
-    public class BorrowerService : IBorrowerService
+    public class BorrowerService : IDocumentService
     {
         private readonly IBorrowerRepository _borrowerRepository;
 
@@ -31,7 +31,7 @@ namespace Domain.Borrowers
             _borrowerRepository.Update(borrower);
         }
 
-        IList<Borrower> IBorrowerService.GetAll()
+        IList<Borrower> IDocumentService.GetAll()
         {
             return _borrowerRepository.GetAll();
         }
