@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Bank;
 using Domain.Borrowers;
+using Domain.Documents;
 using Domain.Emploi;
 using Domain.LatePayment;
 using Domain.Loans;
@@ -22,7 +23,8 @@ namespace Infrastructure
         public DbSet<LoanEntity> Loans { get; set; }
         public DbSet<JobEntity> Jobs { get; set; } 
         public DbSet<LatePaymentBorrowerEntity> LatePayments { get; set; } 
-        public DbSet<OtherBankLoanEntity> OtherBankLoans { get; set; } 
+        public DbSet<OtherBankLoanEntity> OtherBankLoans { get; set; }
+        public DbSet<ProofDocument> ProofDocuments { get; set; }
 
 
 
@@ -35,6 +37,10 @@ namespace Infrastructure
             modelBuilder.Entity<OtherBankLoanEntity>().HasKey(o => o.BankId);
             modelBuilder.Entity<JobEntity>().HasKey(j => j.JobId);
             modelBuilder.Entity<LatePaymentBorrowerEntity>().HasKey(l => l.LatePaymentId);
+            modelBuilder.Entity<ProofDocument>()
+               .HasOne(d => d.Borrower)
+               .WithMany() // ou .WithMany(b => b.Documents) s'il faut ajouter une navigation
+               .HasForeignKey(d => d.BorrowerSin);
 
             modelBuilder.Entity<BorrowerEntity>(b => b.HasData(
                 new BorrowerEntity { Sin = "157489632", FirstName = "Zakaria", LastName = "Morjani", Phone = "4182571159", Email = "zakaria@gmail.com", Address = "le lac fortain" }
