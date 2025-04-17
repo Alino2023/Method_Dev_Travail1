@@ -4,7 +4,7 @@ using Domain.Bank;
 using Domain.Emploi;
 using Domain.Loans;
 using Domain.LatePayment;
-using System.Reflection.Metadata.Ecma335;
+using Domain.Actifs;
 
 namespace Domain.Borrowers
 {
@@ -80,6 +80,7 @@ namespace Domain.Borrowers
         public List<decimal> ActiveLoanPayments { get; set; } = new List<decimal>();
 
         //public IBorrowerService BorrowerService { get; set; }
+        public List<Actif> Actifs { get; set; } = new List<Actif>();
 
 
         public Borrower()
@@ -106,7 +107,7 @@ namespace Domain.Borrowers
                 Had_Bankrupty_In_Last_Six_Years = false;
             }
         }
-        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory)
+        public Borrower(string sin, string firstName, string lastName, string phone, string email, string address, int equifax_Result, DateTime bankruptyDate, List<OtherBankLoan> otherBankLoans, List<LatePaymentBorrower> numberOfLatePayments, List<Job> employmentHistory/*,List<Actif> actif*/)
         {
             Sin = sin;
             FirstName = firstName;
@@ -118,7 +119,8 @@ namespace Domain.Borrowers
             BankruptyDate = bankruptyDate;
             OtherBankLoans = otherBankLoans;
             NumberOfLatePayments = numberOfLatePayments;
-            EmploymentHistory = employmentHistory;  
+            EmploymentHistory = employmentHistory;
+            //Actifs = actif;
             //BorrowerService = borrowerService;
         }
         public void CalculateDebtRatio()
